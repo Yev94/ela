@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 29, 2022 at 06:54 PM
+-- Generation Time: Jun 09, 2022 at 02:30 PM
 -- Server version: 5.7.36
 -- PHP Version: 7.2.34
 
@@ -20,6 +20,192 @@ SET time_zone = "+00:00";
 --
 -- Database: `ela`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+DROP PROCEDURE IF EXISTS `nomProced`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `nomProced` ()  BEGIN
+    SELECT @gar := concat_ws('; ',id, iso, name, nicename, nacionality, iso3, numcode, phonecode) from country where id = 1;
+    SELECT @bar := concat_ws('; ',id, iso, name, nicename, nacionality, iso3, numcode, phonecode) from country where id = 1;
+    INSERT INTO 
+        logs(
+            id, 
+            user_id, 
+            name_table, 
+            table_action, 
+            date_time, 
+            content_before, 
+            content_after) 
+        values(
+            default, 
+            1, 
+            'country', 
+            'update', 
+            NOW(), 
+            @gar, 
+            @bar
+            );
+END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `books`
+--
+
+DROP TABLE IF EXISTS `books`;
+CREATE TABLE IF NOT EXISTS `books` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `serial_number` varchar(255) DEFAULT NULL COMMENT 'Serial Number',
+  `title` varchar(255) NOT NULL COMMENT 'Title',
+  `cost` decimal(8,2) DEFAULT NULL COMMENT 'Cost',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Books';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `books_course`
+--
+
+DROP TABLE IF EXISTS `books_course`;
+CREATE TABLE IF NOT EXISTS `books_course` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `book_id` int(11) NOT NULL COMMENT 'Foreign Key from books',
+  `course_id` int(11) NOT NULL COMMENT 'Foreign Key from courses',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Books and Courses';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `books_inventory`
+--
+
+DROP TABLE IF EXISTS `books_inventory`;
+CREATE TABLE IF NOT EXISTS `books_inventory` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `book_id` int(11) NOT NULL COMMENT 'Foreign Key from books table',
+  `user_role_id` int(11) DEFAULT NULL COMMENT 'Foreign Key from user_roles table',
+  `inventory_movement_type_id` int(11) DEFAULT NULL COMMENT 'Foreign Key from inventory_movement_types table',
+  `quantity` int(11) NOT NULL COMMENT 'Quantity of books',
+  `stock` int(11) NOT NULL COMMENT 'Stock of books',
+  `stock_date` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of stock movement',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Inventory of books';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cash_account`
+--
+
+DROP TABLE IF EXISTS `cash_account`;
+CREATE TABLE IF NOT EXISTS `cash_account` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `user_id` int(11) NOT NULL COMMENT 'Foreign Key form users table',
+  `currency` varchar(3) NOT NULL COMMENT 'Currency of the account',
+  `balance` decimal(10,2) NOT NULL COMMENT 'Balance of the account to keep track of the cash movements',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Cash accounts';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cash_inbound_movement`
+--
+
+DROP TABLE IF EXISTS `cash_inbound_movement`;
+CREATE TABLE IF NOT EXISTS `cash_inbound_movement` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `cash_account_id` int(11) NOT NULL COMMENT 'Foreign Key from cash_account',
+  `quantity` decimal(10,2) NOT NULL COMMENT 'Quantity of cash',
+  `movement_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date and time of movement',
+  `description_movement` varchar(255) DEFAULT NULL COMMENT 'Description of movement',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Cash inbound movements';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cash_outbound_movement`
+--
+
+DROP TABLE IF EXISTS `cash_outbound_movement`;
+CREATE TABLE IF NOT EXISTS `cash_outbound_movement` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `cash_account_id` int(11) NOT NULL COMMENT 'Foreign Key from cash_account',
+  `quantity` decimal(10,2) NOT NULL COMMENT 'Quantity of cash',
+  `movement_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date and time of movement',
+  `description_movement` varchar(255) DEFAULT NULL COMMENT 'Description of movement',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Cash outbound movements';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `changes_logs`
+--
+
+DROP TABLE IF EXISTS `changes_logs`;
+CREATE TABLE IF NOT EXISTS `changes_logs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `user_id` int(11) NOT NULL COMMENT 'Foreign Key to users table',
+  `name_table_id` int(11) NOT NULL COMMENT 'Name of the table',
+  `table_action` varchar(50) NOT NULL COMMENT 'Action performed',
+  `date_time` datetime NOT NULL COMMENT 'Date and time of the action',
+  `content` text COMMENT 'Content of the table after the action',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Logs Table';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `closing_commitment_expense`
+--
+
+DROP TABLE IF EXISTS `closing_commitment_expense`;
+CREATE TABLE IF NOT EXISTS `closing_commitment_expense` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `cash_outbound_movement_id` int(11) NOT NULL COMMENT 'Foreign Key to cash_outbound_movement',
+  `financial_commitment_id` int(11) NOT NULL COMMENT 'Foreign Key to financial_commitment',
+  `description_commitment` varchar(255) DEFAULT NULL COMMENT 'Description of the expense',
+  `closing_date` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of the closing',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Table to keep track of the expenses of the closing';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `closing_commitment_income`
+--
+
+DROP TABLE IF EXISTS `closing_commitment_income`;
+CREATE TABLE IF NOT EXISTS `closing_commitment_income` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `cash_outbound_movement_id` int(11) NOT NULL COMMENT 'Foreign Key to cash_outbound_movement',
+  `financial_commitment_id` int(11) NOT NULL COMMENT 'Foreign Key to financial_commitment',
+  `description_commitment` varchar(255) DEFAULT NULL COMMENT 'Description of the expense',
+  `closing_date` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of the closing',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Table to keep track of the income of the closing';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_type`
+--
+
+DROP TABLE IF EXISTS `contact_type`;
+CREATE TABLE IF NOT EXISTS `contact_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `contact_type` varchar(50) NOT NULL COMMENT 'Type of contact to know who is the contact',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Table to know the type of contact';
 
 -- --------------------------------------------------------
 
@@ -288,6 +474,42 @@ INSERT INTO `country` (`id`, `iso`, `name`, `nicename`, `nacionality`, `iso3`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `course`
+--
+
+DROP TABLE IF EXISTS `course`;
+CREATE TABLE IF NOT EXISTS `course` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `course_type_id` int(11) DEFAULT NULL COMMENT 'Foreign Key from course_type',
+  `name` varchar(255) NOT NULL,
+  `course_date` date NOT NULL,
+  `subject_id` int(11) DEFAULT NULL COMMENT 'Foreign Key from subject',
+  `level_id` int(11) DEFAULT NULL COMMENT 'Foreign Key from level',
+  `weekly_study_session` text COMMENT 'JSON with the weekly study session',
+  `hour_salary` decimal(8,2) DEFAULT NULL COMMENT 'Price payment per hour to teacher',
+  `weekly_payment_id` int(11) DEFAULT NULL COMMENT 'Foreign Key from weekly_payment',
+  `course_comment` text COMMENT 'Comment',
+  `status_course` tinyint(1) DEFAULT NULL COMMENT 'Status of Course',
+  `creation_date` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation Date',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Course';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `course_type`
+--
+
+DROP TABLE IF EXISTS `course_type`;
+CREATE TABLE IF NOT EXISTS `course_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `name` varchar(50) NOT NULL COMMENT 'Name of the course type',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Course type';
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `email`
 --
 
@@ -296,9 +518,7 @@ CREATE TABLE IF NOT EXISTS `email` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `user_id` int(11) DEFAULT NULL COMMENT 'Foreign Key User ID',
   `email` varchar(100) DEFAULT NULL COMMENT 'Email',
-  `create_time` datetime DEFAULT NULL COMMENT 'Create Time',
-  `update_time` datetime DEFAULT NULL COMMENT 'Update Time',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT 'Indicates if the record is deleted',
+  `contact_type_id` int(11) NOT NULL COMMENT 'Type of Contact to know who is the contact',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Emails Table';
 
@@ -313,12 +533,59 @@ CREATE TABLE IF NOT EXISTS `email_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `email_id` int(11) DEFAULT NULL COMMENT 'Foreign Key Email ID',
   `content` text COMMENT 'Comment',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT 'Indicates if the record is deleted',
-  `update_time` datetime DEFAULT NULL COMMENT 'Update Time',
-  `create_time` datetime DEFAULT NULL COMMENT 'Create Time',
   `user_id` int(11) DEFAULT NULL COMMENT 'Foreign Key User ID who Comments',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'The last time the comment was updated.',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Email Comments Table';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `enrol`
+--
+
+DROP TABLE IF EXISTS `enrol`;
+CREATE TABLE IF NOT EXISTS `enrol` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `course_id` int(11) DEFAULT NULL COMMENT 'Foreign Key from Course',
+  `urser_rol_id` int(11) DEFAULT NULL COMMENT 'Foreign Key from User_Roles',
+  `start_date` date DEFAULT NULL COMMENT 'Start Date',
+  `end_date` date DEFAULT NULL COMMENT 'End Date',
+  `status_enrol` tinyint(1) DEFAULT NULL COMMENT 'Status',
+  `comment_enrol` text COMMENT 'Comment',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Course';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `financial_commitment`
+--
+
+DROP TABLE IF EXISTS `financial_commitment`;
+CREATE TABLE IF NOT EXISTS `financial_commitment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `commitment_type_id` int(11) NOT NULL COMMENT 'Foreign Key form commitment_type',
+  `user_id` int(11) NOT NULL COMMENT 'Foreign Key form user',
+  `amount_commitment` decimal(10,2) NOT NULL COMMENT 'Amount of commitment to keep track of balance',
+  `amount_paid` decimal(10,2) NOT NULL COMMENT 'Amount of paid commitment',
+  `description_commitment` varchar(255) DEFAULT NULL COMMENT 'Description of commitment',
+  `date_commitment` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of commitment',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Financial commitments';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `financial_commitment_type`
+--
+
+DROP TABLE IF EXISTS `financial_commitment_type`;
+CREATE TABLE IF NOT EXISTS `financial_commitment_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `commitment_type` varchar(255) NOT NULL COMMENT 'Name of the financial commitment type',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Type of financial commitment as Expense or Income';
 
 -- --------------------------------------------------------
 
@@ -332,9 +599,7 @@ CREATE TABLE IF NOT EXISTS `international_phone` (
   `user_id` int(11) DEFAULT NULL COMMENT 'User Id',
   `numcode_city_id` int(11) DEFAULT NULL COMMENT 'Foreign Key Prefix Internation Number Id',
   `phone_number` varchar(50) DEFAULT NULL COMMENT 'International Number',
-  `update_time` datetime DEFAULT NULL COMMENT 'Update Time',
-  `create_time` datetime DEFAULT NULL COMMENT 'Create Time',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT 'Indicates if the record is deleted',
+  `contact_type_id` int(11) NOT NULL COMMENT 'Type of Contact to know who is the contact',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Internartion Phones Table';
 
@@ -349,12 +614,78 @@ CREATE TABLE IF NOT EXISTS `international_phone_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `international_phone_id` int(11) DEFAULT NULL COMMENT 'Foreign Key International Phone ID',
   `content` text COMMENT 'Comment',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT 'Indicates if the record is deleted',
-  `update_time` datetime DEFAULT NULL COMMENT 'Update Time',
-  `create_time` datetime DEFAULT NULL COMMENT 'Create Time',
   `user_id` int(11) DEFAULT NULL COMMENT 'Foreign Key User ID who Comments',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'The last time the comment was updated.',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Internation Phone Comments Table';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory_movement_type`
+--
+
+DROP TABLE IF EXISTS `inventory_movement_type`;
+CREATE TABLE IF NOT EXISTS `inventory_movement_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `type` varchar(255) NOT NULL COMMENT 'Type of movement',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Inventory Movement Type';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kinship`
+--
+
+DROP TABLE IF EXISTS `kinship`;
+CREATE TABLE IF NOT EXISTS `kinship` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `user_id1` int(11) NOT NULL COMMENT 'User 1',
+  `user_id2` int(11) NOT NULL COMMENT 'User 2',
+  `kinship_type_id` int(11) NOT NULL COMMENT 'Foreign Key from Kinship type',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Kinship between two users';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kinship_type`
+--
+
+DROP TABLE IF EXISTS `kinship_type`;
+CREATE TABLE IF NOT EXISTS `kinship_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `kinship_type` varchar(50) NOT NULL COMMENT 'Name of the kinship type',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Kinship between two users';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `last_access`
+--
+
+DROP TABLE IF EXISTS `last_access`;
+CREATE TABLE IF NOT EXISTS `last_access` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `user_id` int(11) NOT NULL COMMENT 'Foreign Key form the user table',
+  `last_access` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'Last access date',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Table to keep track of the last access of the user';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `levels`
+--
+
+DROP TABLE IF EXISTS `levels`;
+CREATE TABLE IF NOT EXISTS `levels` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `name` varchar(50) NOT NULL COMMENT 'Level name',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Levels';
 
 -- --------------------------------------------------------
 
@@ -367,8 +698,6 @@ CREATE TABLE IF NOT EXISTS `locations` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `province_id` int(11) DEFAULT NULL COMMENT 'Foreign Key Province ID',
   `locations` varchar(100) DEFAULT NULL COMMENT 'Location',
-  `location_user_creator_id` int(11) DEFAULT NULL COMMENT 'Foreign Key of User who created the record',
-  `update_time` datetime DEFAULT NULL COMMENT 'Last update time',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Locations Table';
 
@@ -383,9 +712,7 @@ CREATE TABLE IF NOT EXISTS `mobile` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `user_id` int(11) DEFAULT NULL COMMENT 'Foreign Key User Id',
   `phone_number` varchar(50) DEFAULT NULL COMMENT 'Mobile Number',
-  `update_time` datetime DEFAULT NULL COMMENT 'Update Time',
-  `create_time` datetime DEFAULT NULL COMMENT 'Create Time',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT 'Indicates if the record is deleted',
+  `contact_type_id` int(11) NOT NULL COMMENT 'Type of Contact to know who is the contact',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Mobiles Table';
 
@@ -400,12 +727,24 @@ CREATE TABLE IF NOT EXISTS `mobile_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `mobile_id` int(11) DEFAULT NULL COMMENT 'Foreign Key Mobile ID',
   `content` text COMMENT 'Comment',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT 'Indicates if the record is deleted',
-  `update_time` datetime DEFAULT NULL COMMENT 'Update Time',
-  `create_time` datetime DEFAULT NULL COMMENT 'Create Time',
   `user_id` int(11) DEFAULT NULL COMMENT 'Foreign Key User ID who Comments',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'The last time the comment was updated.',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Mobile Comments Table';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `non_attendence`
+--
+
+DROP TABLE IF EXISTS `non_attendence`;
+CREATE TABLE IF NOT EXISTS `non_attendence` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `study_session_id` int(11) NOT NULL COMMENT 'Foreign Key from study_sessions',
+  `user_role_student_id` int(11) NOT NULL COMMENT 'Foreign Key from user_role of student',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Non Attendence';
 
 -- --------------------------------------------------------
 
@@ -418,9 +757,7 @@ CREATE TABLE IF NOT EXISTS `phone` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `user_id` int(11) DEFAULT NULL COMMENT 'Foreign Key User Id',
   `phone_number` varchar(50) DEFAULT NULL COMMENT 'Phone Number',
-  `update_time` datetime DEFAULT NULL COMMENT 'Update Time',
-  `create_time` datetime DEFAULT NULL COMMENT 'Create Time',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT 'Indicates if the record is deleted',
+  `contact_type_id` int(11) NOT NULL COMMENT 'Type of Contact to know who is the contact',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Phones Table';
 
@@ -435,10 +772,8 @@ CREATE TABLE IF NOT EXISTS `phone_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `phone_id` int(11) DEFAULT NULL COMMENT 'Foreign Key Phone ID',
   `content` text COMMENT 'Comment',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT 'Indicates if the record is deleted',
-  `update_time` datetime DEFAULT NULL COMMENT 'Update Time',
-  `create_time` datetime DEFAULT NULL COMMENT 'Create Time',
   `user_id` int(11) DEFAULT NULL COMMENT 'Foreign Key User ID who Comments',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'The last time the comment was updated.',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Phone Comments Table';
 
@@ -453,10 +788,21 @@ CREATE TABLE IF NOT EXISTS `province` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `country_id` int(11) DEFAULT NULL COMMENT 'Foreign Key Country ID',
   `province` varchar(100) DEFAULT NULL COMMENT 'Province',
-  `province_user_creator_id` int(11) DEFAULT NULL COMMENT 'Foreign Key of User who created the record',
-  `update_time` datetime DEFAULT NULL COMMENT 'Last update time',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Provinces Table';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `rol` varchar(50) NOT NULL COMMENT 'Name of the role',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Roles of the DDBB';
 
 -- --------------------------------------------------------
 
@@ -482,10 +828,66 @@ CREATE TABLE IF NOT EXISTS `street` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `zip_code_id` int(11) DEFAULT NULL COMMENT 'Foreign Key of Zip Code',
   `street` varchar(100) DEFAULT NULL COMMENT 'Street',
-  `user_creator_id` int(11) DEFAULT NULL COMMENT 'Foreign Key of User who created the record',
-  `update_time` datetime DEFAULT NULL COMMENT 'Last update time',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Streets Table';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `study_sessions`
+--
+
+DROP TABLE IF EXISTS `study_sessions`;
+CREATE TABLE IF NOT EXISTS `study_sessions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `course_id` int(11) NOT NULL COMMENT 'Foreign Key from course',
+  `date_session` date NOT NULL COMMENT 'Date of the session',
+  `start_time` time NOT NULL COMMENT 'Start time of the session',
+  `end_time` time NOT NULL COMMENT 'End time of the session',
+  `user_role_teacher_id` int(11) NOT NULL COMMENT 'Foreign Key from user_rol with teacher role',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Study Sessions';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subjects`
+--
+
+DROP TABLE IF EXISTS `subjects`;
+CREATE TABLE IF NOT EXISTS `subjects` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Subjects';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `table_name`
+--
+
+DROP TABLE IF EXISTS `table_name`;
+CREATE TABLE IF NOT EXISTS `table_name` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `table_name` varchar(50) DEFAULT NULL COMMENT 'Table Name',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Table Names of DDBB';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaction_between_accounts`
+--
+
+DROP TABLE IF EXISTS `transaction_between_accounts`;
+CREATE TABLE IF NOT EXISTS `transaction_between_accounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `outbound_transaction_id` int(11) NOT NULL COMMENT 'Account that sends money',
+  `inbound_transaction_id` int(11) NOT NULL COMMENT 'Account that receives money',
+  `description_transaction` varchar(255) DEFAULT NULL COMMENT 'Description of the transaction',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Transactions between accounts';
 
 -- --------------------------------------------------------
 
@@ -505,8 +907,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_nickname` varchar(255) DEFAULT NULL COMMENT 'User Nikname',
   `password` varchar(255) DEFAULT NULL COMMENT 'Password',
   `picture` varchar(255) DEFAULT NULL COMMENT 'Picture',
-  `update_time` datetime DEFAULT NULL COMMENT 'Update Time',
-  `create_time` datetime DEFAULT NULL COMMENT 'Creation Time',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Users Table';
 
@@ -522,9 +922,7 @@ CREATE TABLE IF NOT EXISTS `users_comment` (
   `user_coment_id` int(11) DEFAULT NULL COMMENT 'Foreign Key User ID who Comments',
   `comment_to_user_id` int(11) DEFAULT NULL COMMENT 'Foreign Key User ID who is being Commented',
   `content` text COMMENT 'Comment',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT 'Indicates if the record is deleted',
-  `update_time` datetime DEFAULT NULL COMMENT 'Update Time',
-  `create_time` datetime DEFAULT NULL COMMENT 'Create Time',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'The last time the comment was updated.',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Users Comments Table';
 
@@ -540,11 +938,49 @@ CREATE TABLE IF NOT EXISTS `user_address` (
   `user_id` int(11) DEFAULT NULL COMMENT 'Foreign Key of User Table',
   `street_id` int(11) DEFAULT NULL COMMENT 'Foreign Key of Street Table',
   `direction` text COMMENT 'Rest of Direction Address of user in JSON format',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT 'Indicates if the record is deleted',
-  `update_time` datetime DEFAULT NULL COMMENT 'Last update time',
-  `create_time` datetime DEFAULT NULL COMMENT 'Creation time',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='ZIPs Code Table';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_password_history`
+--
+
+DROP TABLE IF EXISTS `user_password_history`;
+CREATE TABLE IF NOT EXISTS `user_password_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `user_id` int(11) NOT NULL COMMENT 'Foreign Key from the user table',
+  `password_history` varchar(255) NOT NULL COMMENT 'Password',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Table to keep track of the password history of the users';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_rol`
+--
+
+DROP TABLE IF EXISTS `user_rol`;
+CREATE TABLE IF NOT EXISTS `user_rol` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `user_id` int(11) NOT NULL COMMENT 'Foreign Key to users table',
+  `role_id` int(11) NOT NULL COMMENT 'Foreign Key to roles table',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Table to store user roles';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `weekly_payment`
+--
+
+DROP TABLE IF EXISTS `weekly_payment`;
+CREATE TABLE IF NOT EXISTS `weekly_payment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `payment` decimal(8,2) DEFAULT NULL COMMENT 'Payment in Dinars',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Weekly payment';
 
 -- --------------------------------------------------------
 
@@ -557,8 +993,6 @@ CREATE TABLE IF NOT EXISTS `zip_code` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `location_id` int(11) DEFAULT NULL COMMENT 'Foreign Key Location ID',
   `zip_code` int(11) DEFAULT NULL COMMENT 'ZIP Code',
-  `zip_user_creator_id` int(11) DEFAULT NULL COMMENT 'Foreign Key of User who created the record',
-  `update_time` datetime DEFAULT NULL COMMENT 'Last update time',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='ZIPs Code Table';
 COMMIT;

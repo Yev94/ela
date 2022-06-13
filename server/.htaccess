@@ -1,0 +1,10 @@
+#Don't allow to enter on directories
+Options All -Indexes
+
+#User friendly URls
+Options -MultiViews
+
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]

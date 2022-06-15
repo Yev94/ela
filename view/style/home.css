@@ -17,9 +17,11 @@
 }
 
 /*---------------Cards Homepage------------------------ */
+.content-index .card{
+    transition: .4s;
+}
 .content-index .card:hover{
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
-    transition: .2s;
     transform: translateY(-2%);
 }
 

@@ -1,0 +1,60 @@
+
+/*---------------Slider------------------------ */
+.carousel-item img{
+    margin: auto;
+}
+
+.carousel-item > * {
+    max-height: 50vh;
+    max-width: 100%;
+}
+
+/*---------------Main cards------------------------ */
+.languages-cards {
+    max-width: 1550px;
+    margin: 50px auto;
+    padding: 0px 20px;
+}
+
+/*---------------Cards Homepage------------------------ */
+.content-index .card:hover{
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    transition: .2s;
+    transform: translateY(-2%);
+}
+
+.content-index .card1{
+    background: url(http://localhost/ela/img/spain.jpg) no-repeat;
+    background-size: 800px;
+    background-position: -200px -200px;
+}
+
+.content-index .card2{
+    background: url(http://localhost/ela/img/england.jpg) no-repeat;
+    background-size: 840px;
+    background-position: -300px -80px;
+}
+
+.content-index .card3{
+    background: url(http://localhost/ela/img/france.jpg) no-repeat;
+    background-size: 860px;
+    background-position: -330px -250px;
+}
+
+.content-index .card4{
+    background: url(http://localhost/ela/img/russia.jpg) no-repeat;
+    background-size: 700px;
+    background-position: -100px -160px;
+}
+
+.content-index .card5{
+    background: url(http://localhost/ela/img/germany.jpg) no-repeat;
+    background-size: 900px;
+    background-position: -280px -50px;
+}
+
+.content-index .card6{
+    background: url(http://localhost/ela/img/arabia.jpg) no-repeat;
+    background-size: 500px;
+    background-position: 0px -15px;
+}

@@ -1,9 +1,0 @@
-.row {
-    display: grid;
-    grid-template-columns: repeat(5, 142px);
-}
-
-.col {
-    border: 1px solid black;
-    padding: 5px 10px;
-}

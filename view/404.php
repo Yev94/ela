@@ -2,8 +2,8 @@
 $title = '404 - Página No Encontrada';
 include 'templates/head.php';
 ?>
-<link rel="stylesheet" href="<?php echo SERVER_NAME ?>view/style/404.css">
-<link rel="stylesheet" href="<?php echo SERVER_NAME ?>view/style/scrollbar.css">
+<link rel="stylesheet" href="/ela/view/style/404.css">
+<link rel="stylesheet" href="/ela/view/style/scrollbar.css">
 </head>
 
 <body>

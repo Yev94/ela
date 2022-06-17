@@ -1,15 +1,16 @@
 <?php
 
-class Connect {
+class Connect
+{
 
-    public static function connection(){
-        require_once 'config.php';
+    public static function connection()
+    {
         try {
             $connection = new PDO(
-                'mysql:host='. DB_HOST.
-                ';dbname='. DB_NAME.
-                ';charset='. DB_CHARSET, 
-                DB_USER, 
+                'mysql:host=' . DB_HOST .
+                    ';dbname=' . DB_NAME .
+                    ';charset=' . DB_CHARSET,
+                DB_USER,
                 DB_PASS
             );
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -20,6 +21,6 @@ class Connect {
             echo 'Line error: ' . $e->getLine() . '<br>';
         }
     }
-    }
+}
 
 ?>

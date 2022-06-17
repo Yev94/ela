@@ -1,7 +1,7 @@
 <footer class="p-3 mt-5 pt-md-5 border-top bg-light footer-ela">
     <div class="row">
         <div class="col-12 col-md">
-            <img class="mb-2" src="./img/logoescuelaweb2.png" alt="..." width="50" height="55">
+            <img class="mb-2" src="/ela/img/logoescuelaweb2.png" alt="..." width="50" height="55">
             <small class="d-block mb-3 text-muted">© 2022</small>
         </div>
         <div class="col-12 col-sm-6 col-md">
@@ -33,9 +33,13 @@
             </ul>
         </div>
     </div>
-    <div class="telegram transform">
-        <a></a>
-    </div>
+    <?php
+        if (isset($_SESSION['user'])) {
+            echo '<div class="telegram transform">
+            <a></a>
+        </div>';
+        }
+    ?>
 </footer>
 <script>
     let telegram = document.querySelector('.telegram');

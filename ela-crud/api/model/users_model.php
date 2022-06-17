@@ -3,7 +3,7 @@ class users_model{
     private $db;
     
     public function __construct(){
-        require_once 'connect.php';
+        require_once '/ela/includes/config/connect.php';
         
         $this->db = Connect::connection();
         $this->table = array();

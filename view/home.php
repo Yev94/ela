@@ -2,9 +2,8 @@
 
 $title = 'Home';
 require 'templates/head.php';
-
 ?>
-<link rel="stylesheet" href="<?php echo SERVER_NAME ?>view/style/home.css">
+<link rel="stylesheet" href="./view/style/home.css">
 </head>
 
 <body>
@@ -37,53 +36,11 @@ require 'templates/head.php';
                 </button>
             </div>
         </header>
-        <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-success">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.html"><img src="./img/logoescuelaweb2.png" alt="..." width="50" height="55"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item me-2">
-                            <a class="nav-link" aria-current="page" href="index.html">Inicio</a>
-                        </li>
-                        <li class="nav-item dropdown nav-link px-0 me-3">
-                            <a role="button" data-bs-toggle="dropdown" href="#" class="dropdown-toggle text-decoration-none link-light">Acceso</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" aria-current="page" href="acceso/alumno.html">Alumnos</a></li>
-                                <li><a class="dropdown-item" aria-current="page" href="acceso/profesor.html">Profesores</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="Registro/Usuario.html">No estoy registrado</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown nav-link px-0 me-2">
-                            <a role="button" data-bs-toggle="dropdown" href="#" class="dropdown-toggle text-decoration-none link-light">Cursos</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" aria-current="page" href="#">Alemán</a></li>
-                                <li><a class="dropdown-item" aria-current="page" href="#">Árabe</a></li>
-                                <li><a class="dropdown-item" aria-current="page" href="#">Español</a></li>
-                                <li><a class="dropdown-item" aria-current="page" href="#">Frances</a></li>
-                                <li><a class="dropdown-item" aria-current="page" href="#">Inglés</a></li>
-                                <li><a class="dropdown-item" aria-current="page" href="#">Ruso</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Matricula</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Sobre nosotros</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex">
-                        <input class="form-control " type="search" placeholder="Buscar..." aria-label="Search">
-                        <button class="input-group-text bi bi-search bg-body" type="submit"></button>
-                    </form>
-                </div>
-            </div>
-        </nav>
+        <?php
+        
+        include 'templates/nav.php';
+        
+        ?>
         <main>
             <div class="m-4 mt-5 text-center">
                 <h1 class="h1 fw-bold">École de langues Ammari</h1>

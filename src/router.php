@@ -4,32 +4,44 @@
 class Router
 {
 
-    private array $handlers;
+    private array $controllers;
     private const METHOD_GET = 'GET';
-    private $notFoundHandler;
+    private $notFoundController;
     private const METHOD_POST = 'POST';
+    private const METHOD_PUT = 'PUT';
+    private const METHOD_DELETE = 'DELETE';
 
-    public function get(string $path, $handler)
+    public function get(string $path, $controller)
     {
-        $this->addHandler(self::METHOD_GET, $path, $handler);
+        $this->addController(self::METHOD_GET, $path, $controller);
     }
 
-    public function post(string $path, $handler)
+    public function post(string $path, $controller)
     {
-        $this->addHandler(self::METHOD_POST, $path, $handler);
+        $this->addController(self::METHOD_POST, $path, $controller);
     }
 
-    public function addNotFoundHandler($handler)
+    public function put(string $path, $controller)
     {
-        $this->notFoundHandler = $handler;
+        $this->addController(self::METHOD_PUT, $path, $controller);
     }
 
-    private function addHandler(string $method, string $path, $handler)
+    public function delete(string $path, $controller)
     {
-        $this->handlers[$method . $path] = [
+        $this->addController(self::METHOD_DELETE, $path, $controller);
+    }
+
+    public function addNotFoundController($controller)
+    {
+        $this->notFoundController = $controller;
+    }
+
+    private function addController(string $method, string $path, $controller)
+    {
+        $this->controllers[$method . $path] = [
             'path' => $path,
             'method' => $method,
-            'handler' => $handler
+            'controller' => $controller
         ];
     }
 
@@ -41,30 +53,30 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
 
         $callback = null;
-        
-        foreach ($this->handlers as $handler) {
 
-            
-            if ($handler['path'] === $requestPath &&  $method === $handler['method']) {
-                $callback = $handler['handler'];
+        foreach ($this->controllers as $controller) {
+
+
+            if ($controller['path'] === $requestPath &&  $method === $controller['method']) {
+                $callback = $controller['controller'];
             };
         }
 
         //Change string to array and use the class method
-        if(is_string($callback)){
+        if (is_string($callback)) {
             $parts = explode('::', $callback);
-            if(is_array($parts)){
+            if (is_array($parts)) {
                 $className = array_shift($parts);
-                $handler = new $className();
+                $controller = new $className();
                 $method = array_shift($parts);
-                $callback = [$handler, $method];
+                $callback = [$controller, $method];
             }
         }
 
         if (!$callback) {
             header('HTTP/1.1 404 Not Found');
-            if(!empty($this->notFoundHandler)){
-                $callback = $this->notFoundHandler;
+            if (!empty($this->notFoundController)) {
+                $callback = $this->notFoundController;
             }
         }
 

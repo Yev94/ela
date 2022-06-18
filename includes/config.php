@@ -6,4 +6,7 @@ define('DB_PASS', '');
 define('DB_NAME', 'ela');
 define('DB_CHARSET', 'utf8');
 
+//Server Config
+define('DOMAIN', '/ela/');
+
 ?>

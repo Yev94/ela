@@ -2,7 +2,6 @@ import BootstrapEla from './bootstrap.js';
 export default class Crud {
 
     url = 'http://localhost/ela/api';
-
     constructor(users) {
         this.users = users;
     }

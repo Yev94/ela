@@ -37,9 +37,9 @@ require 'templates/head.php';
             </div>
         </header>
         <?php
-        
+
         include 'templates/nav.php';
-        
+
         ?>
         <main>
             <div class="m-4 mt-5 text-center">
@@ -106,9 +106,7 @@ require 'templates/head.php';
             </div>
         </main>
         <?php
-        
         include_once 'templates/footer.php';
-        
         ?>
     </div>
 </body>

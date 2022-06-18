@@ -4,8 +4,8 @@
 class LoginAdminModel
 {
     private $db;
-    private $name;
-    private $username;
+    private $userName;
+    private $userNickname;
 
     public function __construct()
     {
@@ -41,6 +41,7 @@ class LoginAdminModel
     
     public function setUser(string $user){
         $sql = "SELECT * FROM users WHERE user_nickname = :user";
+        //From includes/connect.php
         $query = $this->db->prepare($sql);
         $query->bindParam(':user', $user);
         $query->execute();
@@ -48,13 +49,17 @@ class LoginAdminModel
         $query->closeCursor();
 
         foreach ($row as $currentUser) {
-            $this->name = $currentUser->user_name;
-            $this->username = $currentUser->user_nickname;
+            $this->userName = $currentUser->user_name;
+            $this->userNickname = $currentUser->user_nickname;
         }
     }
 
+    public function getNickname(){
+        return $this->userNickname;
+    }
+
     public function getName(){
-        return $this->name;
+        return $this->userName;
     }
 
 }

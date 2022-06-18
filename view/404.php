@@ -2,8 +2,7 @@
 $title = '404 - Página No Encontrada';
 include 'templates/head.php';
 ?>
-<link rel="stylesheet" href="/ela/view/style/404.css">
-<link rel="stylesheet" href="/ela/view/style/scrollbar.css">
+<link rel="stylesheet" href="<?php echo DOMAIN ?>view/style/404.css">
 </head>
 
 <body>
@@ -39,7 +38,7 @@ include 'templates/head.php';
                 <!-- <p class="message__text">Lo sentimos la página no ha sido encontrada, vuelva para seguir navegando</p> -->
             </div>
             <div>
-                <a href="/ela/" class="animated-button8">
+                <a href="<?php echo DOMAIN  ?>" class="animated-button8">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -53,10 +52,9 @@ include 'templates/head.php';
     </section>
 
     </a>
+    <?php
+    include 'templates/footer.php';
+    ?>
 </body>
-<?php
-include 'templates/footer.php';
-
-?>
 
 </html>

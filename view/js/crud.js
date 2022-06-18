@@ -1,7 +1,7 @@
 import BootstrapEla from './bootstrap.js';
 export default class Crud {
 
-    url = './model/api_users_model.php';
+    url = '/ela/api';
 
     constructor(users) {
         this.users = users;
@@ -17,7 +17,7 @@ export default class Crud {
         while (this.users.firstChild) {
             this.users.removeChild(this.users.firstChild);
         }
-        let urlAPI = this.url + '?view=true';
+        let urlAPI = this.url + '?type=reed';
         fetch(urlAPI)
             .then(response => response.json())
             .then(data => {
@@ -75,17 +75,14 @@ export default class Crud {
                     this.users.appendChild(row);
                 }
                 )
-
-
-
             })
             .catch(error => console.error(error));
 
     }
 
-    create(inputName, inputLastNameUpdate) {
-        let data = { inputName, inputLastNameUpdate };
-        let urlAPI = this.url + '?insert=true';
+    create(inputName, inputLastName) {
+        let data = { inputName, inputLastName };
+        let urlAPI = this.url + '?type=create';
         fetch(urlAPI, {
             method: 'PUT',
             body: JSON.stringify(data)
@@ -98,7 +95,7 @@ export default class Crud {
     }
 
     delete(id) {
-        let urlAPI = this.url + '?delete=' + id;
+        let urlAPI = this.url + '?type=delete&id=' + id;
         fetch(urlAPI, {
             method: 'DELETE'
         })
@@ -118,7 +115,7 @@ export default class Crud {
         let inputLastNameUpdate = document.getElementById('last-name-update');
         let formUpdate = document.getElementById('form-update');
 
-        let urlAPI = this.url + '?consult=' + id;
+        let urlAPI = this.url + '?type=consult&id=' + id;
 
         fetch(urlAPI)
             .then(response => response.json())
@@ -134,13 +131,14 @@ export default class Crud {
         bootstrap.openModal();
         
         let submitFormUpdate = () => {
+            
             let data = { 
                 idUpdate : idUpdate.value, 
                 inputNameUpdate : inputNameUpdate.value,
                 inputLastNameUpdate : inputLastNameUpdate.value
             };
     
-            let urlAPI = this.url + '?update=' + id;
+            let urlAPI = this.url + '?type=update&id=' + id;
             fetch(urlAPI, {
                 method: 'PUT',
                 body: JSON.stringify(data)

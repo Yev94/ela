@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-success">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/ela/"><img src="./img/logoescuelaweb2.png" alt="..." width="50" height="55"></a>
+        <a class="navbar-brand" href="<?php echo DOMAIN ?>"><img src="./img/logoescuelaweb2.png" alt="..." width="50" height="55"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarElaToggle" aria-controls="navbarElaToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarElaToggle">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item me-2">
-                    <a class="nav-link active" aria-current="page" href="/ela/">Inicio</a>
+                    <a class="nav-link active" aria-current="page" href="<?php echo DOMAIN ?>">Inicio</a>
                 </li>
                 <li class="nav-item dropdown nav-link px-0 me-3">
                     <a role="button" data-bs-toggle="dropdown" href="#" class="dropdown-toggle text-decoration-none link-light">Acceso</a>
@@ -38,15 +38,15 @@
                     <a class="nav-link active" href="#">Sobre nosotros</a>
                 </li>
                 <?php
-
-                if (isset($_SESSION['user'])) {
-                    if($_SERVER['REQUEST_URI'] !== '/ela/admin'){
+                //Defined in src/controller/login_admin_controller.php->executePost()
+                if (isset($_SESSION['user']['userNickname'])) {
+                    if ($_SERVER['REQUEST_URI'] !== '<?php echo DOMAIN?>admin') {
                         echo '<li class="nav-item">
-                            <a class="nav-link active" href="/ela/admin">Admin</a>
+                            <a class="nav-link active" href="' . DOMAIN . 'admin">Admin</a>
                         </li>';
                     }
                     echo '<li class="nav-item">
-                            <a class="nav-link active text-decoration-underline" href="/ela/logout">Cerrar sesión</a>
+                            <a class="nav-link active text-decoration-underline" href="' . DOMAIN . 'logout">Cerrar sesión</a>
                         </li>';
                 }
 

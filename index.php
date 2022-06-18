@@ -1,17 +1,17 @@
 <?php
 
 require 'src/router.php';
-require 'src/handler/login_admin.php';
-require 'src/handler/logout.php';
+require 'src/controller/login_admin_controller.php';
+require 'src/controller/logout_controller.php';
+require 'src/controller/api_users_controller.php';
 require 'includes/config.php';
 require 'includes/user_session.php';
-
 //From includes/user_session.php
 new UserSession();
 
 //From src/router.php
 $router = new Router();
-$base = '/ela/';
+$base = DOMAIN;
 
 //From src/router.php
 $router->get($base, function(){
@@ -29,19 +29,23 @@ $router->get($base, function(){
 // });
 
 //From src/router.php
-//From src/handler/login_admin.php
-$router->get($base . 'admin', LoginAdmin::class . '::executeGet');
-$router->post($base . 'admin',  LoginAdmin::class . '::executePost');
+//From src/controller/login_admin_controller.php
+$router->get($base . 'admin', LoginAdminController::class . '::executeGet');
+$router->post($base . 'admin',  LoginAdminController::class . '::executePost');
 
 //From src/router.php
-//From src/handler/logout.php
-$router->get($base . 'logout',  Logout::class . '::execute');
+//From src/controller/logout_controller.php
+$router->get($base . 'logout',  LogoutController::class . '::execute');
 
 //From src/router.php
-$router->addNotFoundHandler(function(){
+//From src/controller/api_users_controller.php
+$router->get($base . 'api', function($params) {new ApiUsersController($params);});
+$router->put($base . 'api', function($params) {new ApiUsersController($params);});
+$router->delete($base . 'api', function($params) {new ApiUsersController($params);});
+
+//From src/router.php
+$router->addNotFoundController(function(){
     require_once './view/404.php';
 });
 
 $router->run();
-
-?>

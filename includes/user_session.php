@@ -8,20 +8,17 @@ class UserSession{
         }
     }
 
-    public function setCurrentUser($user){
-        $_SESSION['user'] = $user;
+    public function setUserName($userName){
+        $_SESSION['user']['userName'] = $userName;
     }
 
-    public function getCurrentUser(){
-        if(isset($_SESSION['user'])){
-            return $_SESSION['user'];
-        }
+    public function setUserNickname($userNickname){
+        $_SESSION['user']['userNickname'] = $userNickname;
     }
 
     public function destroySession(){
         session_unset();
         session_destroy();
-        setcookie('username', '', time() - 1, "/");
     }
 }
 

@@ -14,7 +14,9 @@ if (isset($_SESSION['user']["userName"])) {
 
 <link rel="stylesheet" href="<?php echo DOMAIN ?>view/style/ela_admin.css">
 <script defer type="module" src="<?php echo DOMAIN ?>view/js/bootstrap.js"></script>
-<script defer type="module" src="<?php echo DOMAIN ?>view/js/crud.js"></script>
+<script defer type="module" src="<?php echo DOMAIN ?>view/js/api_crud.js"></script>
+<script defer type="module" src="<?php echo DOMAIN ?>view/js/create_and_append.js"></script>
+<script defer type="module" src="<?php echo DOMAIN ?>view/js/crud_admin_users.js"></script>
 <script defer type="module" src="<?php echo DOMAIN ?>view/js/main_admin_users.js"></script>
 </head>
 
@@ -28,11 +30,11 @@ if (isset($_SESSION['user']["userName"])) {
     <div class="container">
         <div class="row justify-content-center">
             <!-- Vertically centered modal -->
-            <div class="modal fade" id="modalUserInfo" tabindex="-1" aria-labelledby="modalUserInfoLabel" aria-hidden="true">
+            <div class="modal fade" id="modal-user-info" tabindex="-1" aria-labelledby="modal-user-info-label" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-success" id="modalUserInfoLabel">Editar Información Usuario</h5>
+                            <h5 class="modal-title text-success" id="modal-user-info-label">Editar Información Usuario</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form readonly id="form-update" action="javascript:void(0);" method="post">
@@ -56,8 +58,8 @@ if (isset($_SESSION['user']["userName"])) {
                                 </div> -->
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary">Enviar</button>
+                                <button type="button" class="btn btn-secondary button-close" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary button-send">Enviar</button>
                             </div>
                         </form>
                     </div>

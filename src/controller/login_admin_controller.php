@@ -26,9 +26,9 @@ class LoginAdminController
     
         //From model/login_admin_model.php
         $this->user->setUser($_POST['user']);
-        $this->user->loginAdmin($_POST['user'], $_POST['password']);
+        $this->user->loginAdmin($_POST['user'], $_POST['password'], $_POST['rol']);
 
-        if ($this->user->loginAdmin($_POST['user'], $_POST['password'])) {
+        if ($this->user->loginAdmin($_POST['user'], $_POST['password'], $_POST['rol'])) {
             //From includes/user_session.php
             $this->userSession->setUserName($this->user->getName());
             $this->userSession->setUserNickname($this->user->getNickname());

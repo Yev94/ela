@@ -827,3 +827,15 @@ a:hover{
         transform: translateY(100%);
     }
 }
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #039aab99 ;
+    transition: 2s;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #039aab ;
+}

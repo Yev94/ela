@@ -1,4 +1,4 @@
-import Crud from 'http://localhost/ela/view/js/crud.js';
+import UserCrud from 'http://localhost/ela/view/js/crud_admin_users.js';
 
 window.onload = () => {
     //From main form
@@ -7,7 +7,7 @@ window.onload = () => {
     let lastName = document.getElementById('last-name');
     let form = document.getElementById('form');
     
-    let crud = new Crud(users);
+    let crud = new UserCrud(users);
     
     crud.init();
 

@@ -15,15 +15,16 @@ class LoginAdminModel
     }
 
     //Create function to login admin
-    public function loginAdmin(string $user, string $password)
+    public function loginAdmin(string $user, string $password, string $rol)
     {
         $md5pass = md5($password);
-        $sql = "SELECT * FROM users WHERE user_nickname = :user AND password = :password";
+        $sql = " SELECT * FROM users INNER JOIN user_rol ON users.id = user_rol.user_id WHERE users.user_nickname = :user AND users.password = :password AND user_rol.role_id = :rol;";
         //From includes/connect.php
         $query = $this->db->prepare($sql);
 
         $query->bindParam(':user', $user);
         $query->bindParam(':password', $md5pass);
+        $query->bindParam(':rol', $rol);
 
         $query->execute();
 

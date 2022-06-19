@@ -25,7 +25,7 @@ include './view/templates/head.php';
                 <div class="row justify-content-center">
                     <div class="col-md-12 p-5">
                         <div class="d-flex flex-column justify-content-center">
-                            <img class="mb-2 align-self-center" src="/ela/img/logoescuelaweb.png" alt="..." width="100" height="110">
+                            <img class="mb-2 align-self-center" src="/ela/img/logo-w200.png" alt="...">
                             <h1> <?php echo $title; ?> </h1>
                         </div>
                         <form action="<?php echo DOMAIN ?>admin" method="post">
@@ -42,6 +42,7 @@ include './view/templates/head.php';
                                 <label for="password">Contraseña</label>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Insertar Contraseña">
                             </div>
+                            <input type="hidden" name="rol" value="3">
                             <button type="submit" class="btn btn-primary my-2">Iniciar Sesión</button>
                         </form>
                     </div>

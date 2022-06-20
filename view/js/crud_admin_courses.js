@@ -3,13 +3,13 @@ import CreateAndAppend from 'http://localhost/ela/view/js/create_and_append.js';
 import BootstrapEla from './bootstrap.js';
 export default class Crud {
 
-    url = '/users';
+    url = '/courses';
     
     api;
     createAndAppendElement;
-    constructor(users) {
+    constructor(courses) {
         this.api = new ApiCrud(this.url);
-        this.users = users;
+        this.courses = courses;
         this.createAndAppend = new CreateAndAppend();
     }
 
@@ -19,13 +19,13 @@ export default class Crud {
 
 
     reed() {
-        while (this.users.firstChild) {
-            this.users.removeChild(this.users.firstChild);
+        while (this.courses.firstChild) {
+            this.courses.removeChild(this.courses.firstChild);
         }
         let response = this.api.reed();
         response.then(data => {
-            data.forEach(user => {
-                let row = this.createAndAppend.element(this.users, 'tr');
+            data.forEach(course => {
+                let row = this.createAndAppend.element(this.courses, 'tr');
                 let columnID = this.createAndAppend.element(row, 'td');
                 let columnName = this.createAndAppend.element(row, 'td');
                 let columnIdentityCard = this.createAndAppend.element(row, 'td');
@@ -33,19 +33,19 @@ export default class Crud {
                 let updateButton = this.createAndAppend.element(columnButton, 'button', 'btn btn-info m-1 btn-edit');
                 let deleteButton = this.createAndAppend.element(columnButton, 'button', 'btn btn-danger m-1 btn-delete');
 
-                this.createAndAppend.textElement(columnID, user.id ?? '-');
-                this.createAndAppend.textElement(columnName, user.user_name ?? '-');
-                this.createAndAppend.textElement(columnIdentityCard, user.identity_card ?? '-');
+                this.createAndAppend.textElement(columnID, course.id ?? '-');
+                this.createAndAppend.textElement(columnName, course.name.toUpperCase() ?? '-');
+                this.createAndAppend.textElement(columnIdentityCard, course.identity_card ?? '-');
                 this.createAndAppend.textElement(updateButton, 'Editar');
                 this.createAndAppend.textElement(deleteButton, 'Eliminar');
 
                 updateButton.addEventListener('click', () => {
-                    this.update(user.id);
+                    this.update(course.id);
                 }
                 );
 
                 deleteButton.addEventListener('click', () => {
-                    this.delete(user.id);
+                    this.delete(course.id);
                 }
                 );
             }
@@ -69,7 +69,7 @@ export default class Crud {
     }
 
     update(id) {
-        let modal = document.getElementById('modal-user-info');
+        let modal = document.getElementById('modal-course-info');
 
         //From modal form
         let idUpdate = document.getElementById('id-update');
@@ -83,7 +83,7 @@ export default class Crud {
         //Create async await for consult
         response.then(data => {
             idUpdate.value = data[0].id;
-            inputNameUpdate.value = data[0].user_name;
+            inputNameUpdate.value = data[0].course_name;
             inputLastNameUpdate.value = data[0].last_name;
         }
         ).catch(error => console.error(error));

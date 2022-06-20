@@ -17,10 +17,10 @@
 }
 
 /*---------------Cards Homepage------------------------ */
-.content-index .card{
+.card{
     transition: .4s;
 }
-.content-index .card:hover{
+.card:hover{
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
     transform: translateY(-2%);
 }

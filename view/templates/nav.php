@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-success">
     <div class="container-fluid">
-        <a class="navbar-brand" href="<?php echo DOMAIN ?>"><img src="./img/logoescuelaweb2.png" alt="..." width="50" height="55"></a>
+        <a class="navbar-brand" href="<?php echo DOMAIN ?>"><img src="<?php echo DOMAIN ?>img/logoescuelaweb2.png" alt="..." width="50" height="55"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarElaToggle" aria-controls="navbarElaToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -39,15 +39,17 @@
                 </li>
                 <?php
                 //Defined in src/controller/login_admin_controller.php->executePost()
-                if (isset($_SESSION['user']['userNickname'])) {
-                    if ($_SERVER['REQUEST_URI'] !== '<?php echo DOMAIN?>admin') {
+                $userSession = new UserSession();
+                $userRole = $userSession->getUserRole();
+                if ($userRole == '3') {
+                    if ($_SERVER['REQUEST_URI'] !== '/ela/admin') {
                         echo '<li class="nav-item">
-                            <a class="nav-link active" href="' . DOMAIN . 'admin">Admin</a>
-                        </li>';
+                                <a class="nav-link active" href="' . DOMAIN . 'admin">Panel</a>
+                            </li>';
                     }
                     echo '<li class="nav-item">
-                            <a class="nav-link active text-decoration-underline" href="' . DOMAIN . 'logout">Cerrar sesión</a>
-                        </li>';
+                                <a class="nav-link active text-decoration-underline" href="' . DOMAIN . 'logout">Cerrar sesión</a>
+                            </li>';
                 }
 
                 ?>

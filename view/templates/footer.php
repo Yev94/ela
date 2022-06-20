@@ -35,7 +35,9 @@
     </div>
     <?php
     //Defined in src/controller/login_admin_controller.php->executePost()
-    if (isset($_SESSION['user']['userNickname'])) {
+    $sessionUser = new UserSession();
+    $userRole = $sessionUser->getUserRole();
+    if ($userRole == '3') {
         echo '<div class="telegram transform">
             <a></a>
         </div>';

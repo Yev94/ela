@@ -1,4 +1,4 @@
-*:not(pre *) {
+*:not(pre *, button), .btn-edit {
     color: #e9e9f4 !important;
 }
 
@@ -33,8 +33,9 @@ h1 {
 }
 
 h2 {
+    text-align: center;
     font-size: 40px;
-    color: #d63384 !important;
+    color: #1aa665 !important;
 }
 
 h3 {

@@ -3,6 +3,10 @@ export default class ApiCrud {
 
     url = '/ela/api';
 
+    constructor(url) {
+        this.url += url;
+    }
+
     async connectAndReturnData(urlAPI) {
         try {
             let response = await fetch(urlAPI);
@@ -26,9 +30,6 @@ export default class ApiCrud {
             body: JSON.stringify(data)
         })
             .then(response => response.json())
-            .then(data => {
-                this.reed();
-            })
             .catch(error => console.error(error));
     }
 

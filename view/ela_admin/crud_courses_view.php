@@ -1,17 +1,18 @@
 <?php
-$title = 'CRUD Usuarios';
+$title = 'CRUD Cursos';
 include './view/templates/head.php';
-require 'model/api_users_model.php';
-$sessionUser = new UserSession();
-$userRole = $sessionUser->getUserRole();
+require 'model/api_courses_model.php';
+$sessionCourse = new UserSession();
+$userRole = $sessionCourse->getUserRole();
+
 ?>
 
 <link rel="stylesheet" href="<?php echo DOMAIN ?>view/style/ela_admin.css">
 <script defer type="module" src="<?php echo DOMAIN ?>view/js/bootstrap.js"></script>
 <script defer type="module" src="<?php echo DOMAIN ?>view/js/api_crud.js"></script>
 <script defer type="module" src="<?php echo DOMAIN ?>view/js/create_and_append.js"></script>
-<script defer type="module" src="<?php echo DOMAIN ?>view/js/crud_admin_users.js"></script>
-<script defer type="module" src="<?php echo DOMAIN ?>view/js/main_admin_users.js"></script>
+<script defer type="module" src="<?php echo DOMAIN ?>view/js/crud_admin_courses.js"></script>
+<script defer type="module" src="<?php echo DOMAIN ?>view/js/main_admin_courses.js"></script>
 </head>
 
 <body>
@@ -20,7 +21,7 @@ $userRole = $sessionUser->getUserRole();
     include './view/templates/nav.php';
 
     ?>
-    <h1 class="text-center pt-4">Usuarios</h1>
+    <h1 class="text-center pt-4">Cursos</h1>
     <div class="container">
         <div class="row justify-content-center">
             <!-- Vertically centered modal -->
@@ -40,11 +41,11 @@ $userRole = $sessionUser->getUserRole();
                                 </div>
                                 <div class="mb-3">
                                     <label for="name-update" class="form-label">Nombre:</label>
-                                    <input required type="text" name="name-update" id="name-update" class="form-control" placeholder="Nombre del usuarios">
+                                    <input required type="text" name="name-update" id="name-update" class="form-control" placeholder="Nombre del curso">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="last-name-update" class="form-label">Apellidos:</label>
-                                    <input type="text" name="last-name-update" id="last-name-update" class="form-control" placeholder="Apellidos">
+                                    <label for="year-update" class="form-label">Año:</label>
+                                    <input type="text" name="year-update" id="year-update" class="form-control" placeholder="Apellidos del Curso">
                                 </div>
                                 <!-- <div class="mb-3">
                                     <label for="email" class="form-label">Correo:</label>
@@ -62,42 +63,42 @@ $userRole = $sessionUser->getUserRole();
             <div class="col-md-5">
                 <div class="card">
                     <div class="card-header bg-success ">
-                        Insertar Usuarios
+                        Insertar Cursos
                     </div>
                     <div class="card-body">
                         <form id="form" action="javascript:void(0);" method="post">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nombre:</label>
-                                <input required type="text" name="name" id="name" class="form-control" placeholder="Nombre del usuarios">
+                                <input required type="text" name="name" id="name" class="form-control" placeholder="Nombre del Curso">
                             </div>
                             <div class="mb-3">
-                                <label for="last-name" class="form-label">Apellidos:</label>
-                                <input required type="text" name="last-name" id="last-name" class="form-control" placeholder="Apellidos">
+                                <label for="year" class="form-label">Año:</label>
+                                <input required type="text" name="year" id="year" class="form-control" placeholder="Año del Curso">
                             </div>
                             <!-- <div class="mb-3">
                                     <label for="email" class="form-label">Correo:</label>
                                     <input type="email" name="email" id="email" class="form-control" placeholder="Correo del usuarios">
                                 </div> -->
 
-                            <button type="submit" class="btn btn-success">Agregar usuario</button>
+                            <button type="submit" class="btn btn-success">Agregar curso</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row m-4">
-            <h3 class="text-success">Lista de Usuarios</h3>
+            <h3 class="text-success">Lista de Cursos</h3>
             <div class="col">
                 <table class="table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nombre Completo</th>
-                            <th>DNI</th>
+                            <th>Nombre del Curso</th>
+                            <th>Año</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="users">
+                    <tbody id="courses">
                         <?php
                         // Managed By Client Side
                         ?>

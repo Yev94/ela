@@ -34,10 +34,10 @@ class ApiUsersModel
         //Insert user in database with POST method
         $data = json_decode(file_get_contents("php://input"));
 
-        $name = $data->inputName;
-        $year_id = $data->inputYear;
+        $name = $data->inputName ?? '';
+        $year_id = $data->inputYear ?? '';
 
-        if (!empty($name) && !empty($year_id)) {
+        // if (!empty($name) && !empty($year_id)) {
             $sql = "INSERT INTO course(name, year_id) VALUES (:name, :year_id)";
 
             $query = $this->db->prepare($sql);
@@ -46,7 +46,7 @@ class ApiUsersModel
             $query->execute();
             $query->closeCursor();
             return $this->querySuccess($query);
-        }
+        // }
     }
 
     public function consult($id)
@@ -66,25 +66,25 @@ class ApiUsersModel
         // Update user by id
         $data = json_decode(file_get_contents("php://input"));;
 
-        $user_name = $data->inputNameUpdate;
-        $last_name = $data->inputYear;
+        $name = $data->inputNameUpdate ?? '';
+        $year_id = $data->inputYearUpdate  ?? '';
 
-        if (!empty($last_name) && !empty($user_name)) {
-            $sql = "UPDATE users SET user_name=:user, last_name=:last_name WHERE id=:id";
+        // if (!empty($name) && !empty($year_id)) {
+            $sql = "UPDATE course SET name=:name, year_id=:year_id WHERE id=:id";
             $query = $this->db->prepare($sql);
-            $query->bindParam(':user', $user_name);
-            $query->bindParam(':last_name', $last_name);
+            $query->bindParam(':name', $name);
+            $query->bindParam(':year_id', $year_id);
             $query->bindParam(':id', $id);
             $query->execute();
             $query->closeCursor();
             return $this->querySuccess($query);
-        }
+        // }
     }
 
     public function delete($id)
     {
         // delete user by id
-        $sql = "DELETE FROM users WHERE id = :id";
+        $sql = "DELETE FROM course WHERE id = :id";
         $query = $this->db->prepare($sql);
         $query->bindParam(':id', $id);
         $query->execute();

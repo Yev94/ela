@@ -12,6 +12,7 @@ $userRole = $sessionUser->getUserRole();
 <script defer type="module" src="<?php echo DOMAIN ?>view/js/create_and_append.js"></script>
 <script defer type="module" src="<?php echo DOMAIN ?>view/js/crud_admin_users.js"></script>
 <script defer type="module" src="<?php echo DOMAIN ?>view/js/main_admin_users.js"></script>
+<script defer type="module" src="<?php echo DOMAIN ?>view/js/enrol.js"></script>
 </head>
 
 <body>

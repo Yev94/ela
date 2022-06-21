@@ -1,7 +1,7 @@
 import ApiCrud from 'http://localhost/ela/view/js/api_crud.js';
 import CreateAndAppend from 'http://localhost/ela/view/js/create_and_append.js';
 import BootstrapEla from './bootstrap.js';
-export default class Crud {
+export default class CrudCourses {
 
     url = '/courses';
     

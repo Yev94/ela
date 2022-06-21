@@ -1,4 +1,4 @@
-import CourseCrud from 'http://localhost/ela/view/js/crud_admin_courses.js';
+import CrudCourses from 'http://localhost/ela/view/js/crud_admin_courses.js';
 
 window.onload = () => {
     //From main form
@@ -7,7 +7,7 @@ window.onload = () => {
     let year = document.getElementById('year');
     let form = document.getElementById('form');
     
-    let crud = new CourseCrud(courses);
+    let crud = new CrudCourses(courses);
     
     crud.init();
 

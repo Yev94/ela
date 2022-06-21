@@ -34,10 +34,10 @@ class ApiUsersModel
         //Insert user in database with POST method
         $data = json_decode(file_get_contents("php://input"));
 
-        $user_name = $data->inputName;
-        $last_name = $data->inputLastName;
+        $user_name = $data->inputName ?? '';
+        $last_name = $data->inputLastName ?? '';
 
-        if (!empty($last_name) && !empty($user_name)) {
+        // if (!empty($last_name) && !empty($user_name)) {
             $sql = "INSERT INTO users(user_name,last_name) VALUES (:user, :password)";
             $query = $this->db->prepare($sql);
             $query->bindParam(':user', $user_name);
@@ -45,7 +45,7 @@ class ApiUsersModel
             $query->execute();
             $query->closeCursor();
             return $this->querySuccess($query);
-        }
+        // }
     }
 
     public function consult($id)
@@ -65,10 +65,10 @@ class ApiUsersModel
         // Update user by id
         $data = json_decode(file_get_contents("php://input"));;
 
-        $user_name = $data->inputNameUpdate;
-        $last_name = $data->inputLastNameUpdate;
+        $user_name = $data->inputNameUpdate ?? '';
+        $last_name = $data->inputLastNameUpdate ?? '';
 
-        if (!empty($last_name) && !empty($user_name)) {
+        // if (!empty($last_name) && !empty($user_name)) {
             $sql = "UPDATE users SET user_name=:user, last_name=:last_name WHERE id=:id";
             $query = $this->db->prepare($sql);
             $query->bindParam(':user', $user_name);
@@ -77,7 +77,7 @@ class ApiUsersModel
             $query->execute();
             $query->closeCursor();
             return $this->querySuccess($query);
-        }
+        // }
     }
 
     public function delete($id)

@@ -1,7 +1,7 @@
 import ApiCrud from 'http://localhost/ela/view/js/api_crud.js';
 import CreateAndAppend from 'http://localhost/ela/view/js/create_and_append.js';
 import BootstrapEla from './bootstrap.js';
-export default class Crud {
+export default class CrudUsers {
 
     url = '/users';
     
@@ -32,12 +32,14 @@ export default class Crud {
                 let columnButton = this.createAndAppend.element(row, 'td');
                 let updateButton = this.createAndAppend.element(columnButton, 'button', 'btn btn-info m-1 btn-edit');
                 let deleteButton = this.createAndAppend.element(columnButton, 'button', 'btn btn-danger m-1 btn-delete');
+                let enrolButton = this.createAndAppend.element(columnButton, 'button', 'btn btn-info m-1 btn-warning');
 
                 this.createAndAppend.textElement(columnID, user.id ?? '-');
                 this.createAndAppend.textElement(columnName, user.user_name ?? '-');
                 this.createAndAppend.textElement(columnIdentityCard, user.identity_card ?? '-');
                 this.createAndAppend.textElement(updateButton, 'Editar');
                 this.createAndAppend.textElement(deleteButton, 'Eliminar');
+                this.createAndAppend.textElement(enrolButton, 'Matriculación');
 
                 updateButton.addEventListener('click', () => {
                     this.update(user.id);
@@ -46,6 +48,11 @@ export default class Crud {
 
                 deleteButton.addEventListener('click', () => {
                     this.delete(user.id);
+                }
+                );
+
+                enrolButton.addEventListener('click', () => {
+                    console.log("🐒 ~ file: crud_admin_users.js ~ line 57 ~ Crudusers ~ enrolButton.addEventListener ~ user", user);
                 }
                 );
             }
@@ -84,7 +91,7 @@ export default class Crud {
         response.then(data => {
             data[0].id ? idUpdate.value = data[0].id : idUpdate.placeholder = '-';
             data[0].user_name ? inputNameUpdate.value = data[0].user_name : inputNameUpdate.placeholder = '-';
-            data[0].identity_card ? inputLastNameUpdate.value = data[0].identity_card : inputLastNameUpdate.placeholder = '-';
+            data[0].last_name ? inputLastNameUpdate.value = data[0].last_name : inputLastNameUpdate.placeholder = '-';
         }
         ).catch(error => console.error(error));
 

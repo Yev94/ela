@@ -83,7 +83,6 @@ $userRole = $sessionCourse->getUserRole();
                                 <label for="year" class="form-label">Año del Curso:</label>
                                 <select name="year" id="year" class="form-select" aria-label="Default select example">
                                     <?php
-                                    echo '<pre>$arrTableYears<br />'; var_dump($arrTableYears); echo '</pre>';
                                     echo '<option value="' . $arrTableYears[0]->id . '" selected>'. $arrTableYears[0]->year .'</option>';
                                     if ($arrTableYears) {
                                         for ($i = 1; $i < count($arrTableYears); $i++) {

@@ -6,7 +6,7 @@ class LoggedController
     private $userRole;
     private $param = [
         'users' => 'getUsersView',
-        'courses' => 'getCoursesView',
+        'courses' => 'getCoursesController',
         'noParameters' => 'getPanelView',
         'notFound' => 'getNotFoundView'
     ];
@@ -31,9 +31,11 @@ class LoggedController
         require './view/ela_admin/crud_users_view.php';
     }
 
-    private function getCoursesView()
-    {
-        require './view/ela_admin/crud_courses_view.php';
+    private function getCoursesController()
+    { 
+        require './src/controller/crud_courses_controller.php';
+        new CrudCoursesController();
+        
     }
 
     private function getPanelView()

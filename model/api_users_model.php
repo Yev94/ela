@@ -7,6 +7,8 @@
 
 class ApiUsersModel
 {
+    private $db;
+    
     //We use the constructor to connect to the database
     public function __construct()
     {

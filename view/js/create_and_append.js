@@ -18,6 +18,8 @@ export default class CreateAndAppend {
             if (className.indexOf(delimit) > -1) {
                 let arrClassName = className.split(delimit);
                 createdElement.classList.add(...arrClassName);
+                
+                
             }
         }
         return createdElement;

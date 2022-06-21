@@ -4,7 +4,6 @@ include './view/templates/head.php';
 require 'model/api_courses_model.php';
 $sessionCourse = new UserSession();
 $userRole = $sessionCourse->getUserRole();
-
 ?>
 
 <link rel="stylesheet" href="<?php echo DOMAIN ?>view/style/ela_admin.css">
@@ -25,11 +24,11 @@ $userRole = $sessionCourse->getUserRole();
     <div class="container">
         <div class="row justify-content-center">
             <!-- Vertically centered modal -->
-            <div class="modal fade" id="modal-user-info" tabindex="-1" aria-labelledby="modal-user-info-label" aria-hidden="true">
+            <div class="modal fade" id="modal-course-info" tabindex="-1" aria-labelledby="modal-course-info-label" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-success" id="modal-user-info-label">Editar Información Usuario</h5>
+                            <h5 class="modal-title text-success" id="modal-course-info-label">Editar Información Usuario</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form readonly id="form-update" action="javascript:void(0);" method="post">
@@ -44,9 +43,18 @@ $userRole = $sessionCourse->getUserRole();
                                     <input required type="text" name="name-update" id="name-update" class="form-control" placeholder="Nombre del curso">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="year-update" class="form-label">Año:</label>
-                                    <input type="text" name="year-update" id="year-update" class="form-control" placeholder="Apellidos del Curso">
-                                </div>
+                                <label for="year-update" class="form-label">Año del Curso:</label>
+                                <select name="year-update" id="year-update" class="form-select" aria-label="Default select example">
+                                    <?php
+                                    echo '<option value="' . $arrTableYears[0]->id . '" selected>'. $arrTableYears[0]->year .'</option>';
+                                    if ($arrTableYears) {
+                                        for ($i = 1; $i < count($arrTableYears); $i++) {
+                                            echo '<option value="' . $arrTableYears[$i]->id . '">' . $arrTableYears[$i]->year . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
                                 <!-- <div class="mb-3">
                                     <label for="email" class="form-label">Correo:</label>
                                     <input type="email" name="email" id="email" class="form-control" placeholder="Correo del usuarios">
@@ -72,14 +80,19 @@ $userRole = $sessionCourse->getUserRole();
                                 <input required type="text" name="name" id="name" class="form-control" placeholder="Nombre del Curso">
                             </div>
                             <div class="mb-3">
-                                <label for="year" class="form-label">Año:</label>
-                                <input required type="text" name="year" id="year" class="form-control" placeholder="Año del Curso">
+                                <label for="year" class="form-label">Año del Curso:</label>
+                                <select name="year" id="year" class="form-select" aria-label="Default select example">
+                                    <?php
+                                    echo '<pre>$arrTableYears<br />'; var_dump($arrTableYears); echo '</pre>';
+                                    echo '<option value="' . $arrTableYears[0]->id . '" selected>'. $arrTableYears[0]->year .'</option>';
+                                    if ($arrTableYears) {
+                                        for ($i = 1; $i < count($arrTableYears); $i++) {
+                                            echo '<option value="' . $arrTableYears[$i]->id . '">' . $arrTableYears[$i]->year . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
                             </div>
-                            <!-- <div class="mb-3">
-                                    <label for="email" class="form-label">Correo:</label>
-                                    <input type="email" name="email" id="email" class="form-control" placeholder="Correo del usuarios">
-                                </div> -->
-
                             <button type="submit" class="btn btn-success">Agregar curso</button>
                         </form>
                     </div>

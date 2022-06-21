@@ -28,14 +28,14 @@ export default class Crud {
                 let row = this.createAndAppend.element(this.courses, 'tr');
                 let columnID = this.createAndAppend.element(row, 'td');
                 let columnName = this.createAndAppend.element(row, 'td');
-                let columnIdentityCard = this.createAndAppend.element(row, 'td');
+                let columnYear = this.createAndAppend.element(row, 'td');
                 let columnButton = this.createAndAppend.element(row, 'td');
                 let updateButton = this.createAndAppend.element(columnButton, 'button', 'btn btn-info m-1 btn-edit');
                 let deleteButton = this.createAndAppend.element(columnButton, 'button', 'btn btn-danger m-1 btn-delete');
 
                 this.createAndAppend.textElement(columnID, course.id ?? '-');
                 this.createAndAppend.textElement(columnName, course.name.toUpperCase() ?? '-');
-                this.createAndAppend.textElement(columnIdentityCard, course.identity_card ?? '-');
+                this.createAndAppend.textElement(columnYear, course.year ?? '-');
                 this.createAndAppend.textElement(updateButton, 'Editar');
                 this.createAndAppend.textElement(deleteButton, 'Eliminar');
 
@@ -54,10 +54,10 @@ export default class Crud {
         ).catch(error => console.error(error));
     }
 
-    create(inputName, inputLastName) {
+    create(inputName, inputYear) {
         let dataSend = {
-            inputName,
-            inputLastName
+            inputName : inputName.toLowerCase(),
+            inputYear
         };
         this.api.create(dataSend);
         this.reed();
@@ -74,7 +74,7 @@ export default class Crud {
         //From modal form
         let idUpdate = document.getElementById('id-update');
         let inputNameUpdate = document.getElementById('name-update');
-        let inputLastNameUpdate = document.getElementById('last-name-update');
+        let inputYearUpdate = document.getElementById('year-update');
         let formUpdate = document.getElementById('form-update');
         let buttonClose = document.querySelector('.button-close');
 
@@ -82,9 +82,10 @@ export default class Crud {
 
         //Create async await for consult
         response.then(data => {
-            idUpdate.value = data[0].id;
-            inputNameUpdate.value = data[0].course_name;
-            inputLastNameUpdate.value = data[0].last_name;
+            data[0].id ? idUpdate.value = data[0].id : idUpdate.placeholder = '-';
+            
+            data[0].name ? inputNameUpdate.value = data[0].name : inputNameUpdate.placeholder = '-';
+            data[0].year ? inputYearUpdate.value = data[0].year : inputYearUpdate.placeholder = '-';
         }
         ).catch(error => console.error(error));
 
@@ -104,7 +105,7 @@ export default class Crud {
         let submitFormUpdate = () => {
             let data = {
                 inputNameUpdate: inputNameUpdate.value,
-                inputLastNameUpdate: inputLastNameUpdate.value
+                inputYearUpdate: inputYearUpdate.value
             };
 
             this.api.update(idUpdate.value, data);

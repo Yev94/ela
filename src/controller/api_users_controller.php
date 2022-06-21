@@ -1,5 +1,4 @@
 <?php
-// require './src/controller/api_controller.php';
 
 class ApiUsersController extends ApiController
 {

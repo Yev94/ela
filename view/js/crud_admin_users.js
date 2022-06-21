@@ -82,9 +82,9 @@ export default class Crud {
 
         //Create async await for consult
         response.then(data => {
-            idUpdate.value = data[0].id;
-            inputNameUpdate.value = data[0].user_name;
-            inputLastNameUpdate.value = data[0].last_name;
+            data[0].id ? idUpdate.value = data[0].id : idUpdate.placeholder = '-';
+            data[0].user_name ? inputNameUpdate.value = data[0].user_name : inputNameUpdate.placeholder = '-';
+            data[0].identity_card ? inputLastNameUpdate.value = data[0].identity_card : inputLastNameUpdate.placeholder = '-';
         }
         ).catch(error => console.error(error));
 

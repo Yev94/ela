@@ -1,4 +1,4 @@
-import CrudCourses from 'http://localhost/ela/view/js/crud_admin_courses.js';
+import CrudCourses from 'http://localhost/ela/view/js/crud/crud_admin_courses.js';
 
 window.onload = () => {
     //From main form
@@ -16,4 +16,6 @@ window.onload = () => {
         crud.create(name.value, year.value);
         form.reset();
     });
+
+    
 }

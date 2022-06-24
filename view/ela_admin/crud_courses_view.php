@@ -10,7 +10,7 @@ $userRole = $sessionCourse->getUserRole();
 <script defer type="module" src="<?php echo DOMAIN ?>view/js/bootstrap.js"></script>
 <script defer type="module" src="<?php echo DOMAIN ?>view/js/api_crud.js"></script>
 <script defer type="module" src="<?php echo DOMAIN ?>view/js/create_and_append.js"></script>
-<script defer type="module" src="<?php echo DOMAIN ?>view/js/crud_admin_courses.js"></script>
+<script defer type="module" src="<?php echo DOMAIN ?>view/js/crud/crud_admin_courses.js"></script>
 <script defer type="module" src="<?php echo DOMAIN ?>view/js/main_admin_courses.js"></script>
 </head>
 

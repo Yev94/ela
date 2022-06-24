@@ -1,4 +1,4 @@
-import CrudUsers from 'http://localhost/ela/view/js/crud_admin_users.js';
+import CrudUsers from 'http://localhost/ela/view/js/crud/crud_admin_users.js';
 
 window.onload = () => {
     //From main form
@@ -16,4 +16,5 @@ window.onload = () => {
         crud.create(name.value, lastName.value);
         form.reset();
     });
+
 }

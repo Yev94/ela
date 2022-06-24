@@ -1,12 +1,13 @@
+import * as assetFunction from 'http://localhost/ela/view/js/assets.js';
 import ApiCrud from 'http://localhost/ela/view/js/api_crud.js';
 import CreateAndAppend from 'http://localhost/ela/view/js/create_and_append.js';
-import BootstrapEla from './bootstrap.js';
+import CrudEnrollment from 'http://localhost/ela/view/js/crud/crud_admin_enrollments.js';
+import BootstrapEla from '../bootstrap.js';
 export default class CrudUsers {
 
     url = '/users';
-    
     api;
-    createAndAppendElement;
+    createAndAppend;
     constructor(users) {
         this.api = new ApiCrud(this.url);
         this.users = users;
@@ -19,9 +20,7 @@ export default class CrudUsers {
 
 
     reed() {
-        while (this.users.firstChild) {
-            this.users.removeChild(this.users.firstChild);
-        }
+        assetFunction.removeChildren(this.users);
         let response = this.api.reed();
         response.then(data => {
             data.forEach(user => {
@@ -52,7 +51,7 @@ export default class CrudUsers {
                 );
 
                 enrolButton.addEventListener('click', () => {
-                    console.log("🐒 ~ file: crud_admin_users.js ~ line 57 ~ Crudusers ~ enrolButton.addEventListener ~ user", user);
+                    let crudEnrollment = new CrudEnrollment(user.id);
                 }
                 );
             }
@@ -76,14 +75,14 @@ export default class CrudUsers {
     }
 
     update(id) {
-        let modal = document.getElementById('modal-user-info');
+        let modalUser = document.getElementById('modal-user-info');
 
         //From modal form
         let idUpdate = document.getElementById('id-update');
         let inputNameUpdate = document.getElementById('name-update');
         let inputLastNameUpdate = document.getElementById('last-name-update');
         let formUpdate = document.getElementById('form-update');
-        let buttonClose = document.querySelector('.button-close');
+        let buttonCloseUpdate = document.querySelector('.button-close-update');
 
         let response = this.api.consult(id);
 
@@ -95,18 +94,20 @@ export default class CrudUsers {
         }
         ).catch(error => console.error(error));
 
-        let bootstrap = new BootstrapEla(modal);
+        let bootstrap = new BootstrapEla(modalUser);
         bootstrap.openModal();
-
+        
         let removeEventSubmit = () => {
             formUpdate.removeEventListener('submit', submitFormUpdate);
         }
-
-        let removeEventsModal = () => {
+        
+        let removeEventsAndUpdate = () => {
+            this.reed();
             removeEventSubmit();
-            buttonClose.removeEventListener('click', removeEventSubmit);
+            modalUser.removeEventListener('hidden.bs.modal', removeEventsAndUpdate);
         }
-
+        
+        modalUser.addEventListener('hidden.bs.modal', removeEventsAndUpdate);
 
         let submitFormUpdate = () => {
             let data = {
@@ -116,12 +117,8 @@ export default class CrudUsers {
 
             this.api.update(idUpdate.value, data);
             bootstrap.closeModal();
-            this.reed();
-            removeEventSubmit();
         }
         //Submit of modal form
         formUpdate.addEventListener('submit', submitFormUpdate);
-        buttonClose.addEventListener('click', removeEventsModal);
-        this.reed();
     }
 }

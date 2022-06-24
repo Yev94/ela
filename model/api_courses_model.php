@@ -93,6 +93,17 @@ class ApiUsersModel
         return $this->querySuccess($query);
     }
 
+    public function getCoursesByYear($yearID)
+    {
+        $sql = "SELECT * FROM course WHERE year_id = :year_id";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        $row = $query->fetchAll(PDO::FETCH_CLASS);
+        $query->closeCursor();
+
+        return $row;
+    }
+
     private function querySuccess($query){
         if ($query->rowCount() > 0) return true;
             else return false;

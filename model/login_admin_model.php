@@ -19,6 +19,7 @@ class LoginAdminModel
     //Create function to login admin
     public function loginAdmin(string $user, string $password, string $rol)
     {
+        
         $md5pass = md5($password);
         $this->sql = " SELECT * FROM users INNER JOIN user_rol ON users.id = user_rol.user_id WHERE users.user_nickname = :user AND users.password = :password AND user_rol.role_id = :role;";
         //From includes/connect.php
@@ -34,9 +35,10 @@ class LoginAdminModel
 
         $rowsAffected = $query->rowCount();
         $query->closeCursor();
-    
+
         if ($rowsAffected > 0) {
             $this->setUser($row);
+            
             return true;
         } else {
             return false;

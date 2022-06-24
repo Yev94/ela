@@ -1,12 +1,12 @@
 <?php
-class ApiController
-{
 
+class ApiEnrollmentsController
+{
     private $param = [
+        'consultByYear' => 'consultByYear',
         'reed' => 'reed',
         'create' => 'create',
-        'consult' => 'consult',
-        'update' => 'update',
+        'consultByIdUser' => 'consultByIdUser',
         'delete' => 'delete',
         'error' => 'error',
     ];
@@ -27,10 +27,12 @@ class ApiController
         $this->sessionUser = new UserSession();
         $userRole = $this->sessionUser->getUserRole();
         $this->params = $params;
+        $this->authorizedRole = ['3'];
+        $this->modelRoute = './model/api_enrollments_model.php';
+
         if (in_array($userRole, $this->authorizedRole)) {
             require $this->modelRoute;
-            $this->tableValues = new ApiUsersModel();
-            //TODO: Apuntar que se puede llamar a una función por su string
+            $this->tableValues = new ApiEnrollmentsModel();
             $func = $this->param[$this->params['type'] ?? 'error'];
             $this->$func();
         } else {
@@ -40,12 +42,19 @@ class ApiController
         }
     }
 
-
-
-    private function reed()
+    private function consultByYear()
     {
-        // echo $_SESSION['user']['userNickname'];
-        $response = $this->tableValues->reed();
+        $response = $this->tableValues->consultByYear($this->params['id']);
+        if (!empty($response)) {
+            echo json_encode($response);
+        } else {
+            $this->sendResponse($response);
+        }
+    }
+
+    private function consultByIdUser()
+    {
+        $response = $this->tableValues->consultByIdUser($this->params['id']);
         if (!empty($response)) {
             echo json_encode($response);
         } else {
@@ -59,18 +68,6 @@ class ApiController
         $this->updateAndSendResponse($response);
     }
 
-    private function consult()
-    {
-        $response = $this->tableValues->consult($this->params['id']);
-        $this->sendResponse($response);
-    }
-
-    private function update()
-    {
-        $response = $this->tableValues->update($this->params['id']);
-        $this->updateAndSendResponse($response);
-    }
-
     private function delete()
     {
         $response = $this->tableValues->delete($this->params['id']);
@@ -79,12 +76,17 @@ class ApiController
 
     private function updateAndSendResponse($response)
     {
-        $response ?
-            $this->reed() :
-            $this->error();
+        if ($response)
+            {
+                $this->json['status'] = '200';
+                $this->json['result'] = 'OK';
+                echo json_encode($this->json);
+            } else{
+                $this->error();
+            }
     }
 
-    private function sendResponse($response)
+    public function sendResponse($response)
     {
         if (!empty($response)) {
             echo json_encode($response);
@@ -102,3 +104,5 @@ class ApiController
         echo json_encode($this->json, http_response_code($this->json["status"]));
     }
 }
+
+?>

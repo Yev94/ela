@@ -16,4 +16,5 @@
     <link rel="shortcut icon" href="<?php echo DOMAIN?>img/logoescuelaweb.png" type="image/x-icon">
     <link rel="stylesheet" href="<?php echo DOMAIN ?>view/style/scrollbar.css">
     <link rel="stylesheet" href="<?php echo DOMAIN?>view/style/main.css">
+    <script type="module" href="<?php echo DOMAIN?>view/js/assets.js"></script>
     <title><?php echo $title ?></title>

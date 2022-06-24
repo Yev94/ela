@@ -1,7 +1,7 @@
 <?php
 
 
-class ApiCoursesController extends ApiController
+class ApiCoursesController extends ApiCrudController
 {
     public function __construct($params)
     {

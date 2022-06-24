@@ -1,3 +1,4 @@
+//TODO: Poner la clase para otros proyectos
 export default class CreateAndAppend {
     
     element(father, element, className = undefined) {
@@ -23,5 +24,13 @@ export default class CreateAndAppend {
             }
         }
         return createdElement;
+    }
+
+    optionElement(father, content, valueAttribute) {
+        let option = document.createElement('option');
+        option.value = valueAttribute;
+        let optionContent = document.createTextNode(content);
+        option.appendChild(optionContent);
+        father.appendChild(option);
     }
 }

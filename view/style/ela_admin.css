@@ -92,3 +92,7 @@ textarea:focus, input:focus {
     border: 1px solid rgba(255,255,255, 0.8);
     border-radius: 0.25rem;
 }
+
+.modal-enrol{
+    min-width: 80%;
+}

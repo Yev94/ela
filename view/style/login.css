@@ -53,12 +53,6 @@
     height: 600px;
 }
 
-input[type="text"], textarea {
-
-    background-color : #ff0000; 
-  
-  }
-
 footer{
     opacity: 0.9;
 }

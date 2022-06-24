@@ -1,10 +1,10 @@
 import ApiCrud from 'http://localhost/ela/view/js/api_crud.js';
 import CreateAndAppend from 'http://localhost/ela/view/js/create_and_append.js';
-import BootstrapEla from './bootstrap.js';
+import BootstrapEla from '../bootstrap.js';
 export default class CrudCourses {
 
     url = '/courses';
-    
+
     api;
     createAndAppendElement;
     constructor(courses) {
@@ -16,7 +16,6 @@ export default class CrudCourses {
     init() {
         this.reed();
     }
-
 
     reed() {
         while (this.courses.firstChild) {
@@ -56,7 +55,7 @@ export default class CrudCourses {
 
     create(inputName, inputYear) {
         let dataSend = {
-            inputName : inputName.toLowerCase(),
+            inputName: inputName.toLowerCase(),
             inputYear
         };
         this.api.create(dataSend);
@@ -69,7 +68,7 @@ export default class CrudCourses {
     }
 
     update(id) {
-        let modal = document.getElementById('modal-course-info');
+        let modalCourse = document.getElementById('modal-course-info');
 
         //From modal form
         let idUpdate = document.getElementById('id-update');
@@ -83,23 +82,26 @@ export default class CrudCourses {
         //Create async await for consult
         response.then(data => {
             data[0].id ? idUpdate.value = data[0].id : idUpdate.placeholder = '-';
-            
+
             data[0].name ? inputNameUpdate.value = data[0].name : inputNameUpdate.placeholder = '-';
             data[0].year ? inputYearUpdate.value = data[0].year : inputYearUpdate.placeholder = '-';
         }
         ).catch(error => console.error(error));
 
-        let bootstrap = new BootstrapEla(modal);
+        let bootstrap = new BootstrapEla(modalCourse);
         bootstrap.openModal();
 
         let removeEventSubmit = () => {
             formUpdate.removeEventListener('submit', submitFormUpdate);
         }
 
-        let removeEventsModal = () => {
+        let removeEventsAndUpdate = () => {
+            this.reed();
             removeEventSubmit();
-            buttonClose.removeEventListener('click', removeEventSubmit);
+            modalCourse.removeEventListener('hidden.bs.modal', removeEventsAndUpdate);
         }
+
+        modalCourse.addEventListener('hidden.bs.modal', removeEventsAndUpdate);
 
 
         let submitFormUpdate = () => {
@@ -115,7 +117,5 @@ export default class CrudCourses {
         }
         //Submit of modal form
         formUpdate.addEventListener('submit', submitFormUpdate);
-        buttonClose.addEventListener('click', removeEventsModal);
-        this.reed();
     }
 }

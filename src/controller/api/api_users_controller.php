@@ -1,6 +1,6 @@
 <?php
 
-class ApiUsersController extends ApiController
+class ApiUsersController extends ApiCrudController
 {
     public function __construct($params)
     {

@@ -1,7 +1,7 @@
 <?php
 
 require './model/crud_courses_model.php';
-class CrudUsersController
+class CrudAdminUsersController
 {
     private $db;
     

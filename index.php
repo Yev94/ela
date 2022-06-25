@@ -2,7 +2,6 @@
 
 require 'src/router.php';
 require 'src/controller/session/login_controller.php';
-require 'src/controller/session/login_user_controller.php';
 require 'src/controller/session/logged_controller.php';
 require 'src/controller/session/logout_controller.php';
 require 'src/controller/api/api_crud_controller.php';
@@ -35,26 +34,13 @@ $router->get($base, function () {
 });
 
 //From src/router.php
-// $router->get($base . 'about', function($params){
-//     if(isset($params['name'])){
-//         $name = $params['name'];
-//     } else {
-//         $name = 'Gest';
-//     }
-//     echo '<h1> Hello ' . $name. '</h1>';
-// });
-
-//From src/router.php
 //From src/controller/login_admin_controller.php
 $router->get($base . $adminRoute, LoginController::class . '::executeGet');
 $router->post($base . $adminRoute,  LoginController::class . '::executePost');
 
-$router->get($base . $loginUsers, function ($params) { new LoginUserController($params);});
-$router->post($base . $loginUsers,  function ($params) { new LoginUserController($params);});
+$router->get($base . $loginUsers, LoginController::class . '::executeGet');
 
-//TODO: revisar cómo pasar el parámetro de la ruta
-// $router->get($base . $adminRoute . $usersRoute, LoginUserController::class . '::executeGet');
-// $router->get($base . $adminRoute . $coursesRoute, LoginUserController::class . '::executeGet');
+$router->post($base . $loginUsers,  LoginController::class . '::executePost');
 
 $router->get($base . 'panel', function ($params) { new LoggedController($params); });
 //From src/router.php
@@ -81,3 +67,14 @@ $router->addNotFoundController(function () {
 });
 
 $router->run();
+
+
+//From src/router.php
+// $router->get($base . 'about', function($params){
+//     if(isset($params['name'])){
+//         $name = $params['name'];
+//     } else {
+//         $name = 'Gest';
+//     }
+//     echo '<h1> Hello ' . $name. '</h1>';
+// });

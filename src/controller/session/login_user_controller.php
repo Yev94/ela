@@ -7,7 +7,7 @@ class LoginUserController
     private $user;
     private $userRole;
 
-    public function __construct($params)
+    public function __construct()
     {
         require './view/login.php';
         $this->userSession = new UserSession();
@@ -17,11 +17,13 @@ class LoginUserController
 
     public function executeGet()
     {
-        // if ($this->userRole == '3') {
-        //     header('Location: ./panel');
-        // } else {
+        
+        echo '<pre><br />'; var_dump($_SERVER['REQUEST_URI']); echo '</pre>';
+        if ($this->userRole == '1' || $this->userRole == '2') {
+            header('Location: ./panel');
+        } else {
             require './view/login.php';
-        // }
+        }
     }
 
     public function executePost()
@@ -39,7 +41,7 @@ class LoginUserController
             header('Location: ./panel');
         } else {
             $errorLogin = '<div class="alert alert-danger" role="alert"> Usuario o contraseña incorrectos </div>';
-            require './view/ela_admin/login_admin_view.php';
+            require './view/ela_admin/login.php';
         }
     }
 }

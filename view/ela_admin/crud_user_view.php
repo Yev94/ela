@@ -1,9 +1,6 @@
 <?php
 $title = 'CRUD Usuarios';
 include './view/templates/head.php';
-require 'model/api_users_model.php';
-$sessionUser = new UserSession();
-$userRole = $sessionUser->getUserRole();
 ?>
 
 <link rel="stylesheet" href="<?php echo DOMAIN ?>view/style/ela_admin.css">

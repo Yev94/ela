@@ -17,26 +17,47 @@ class LoggedController
         $this->userSession = new UserSession();
         $this->userRole = $this->userSession->getUserRole();
 
-        if ($this->userRole == '3') {
+        $users = ['1', '2', '3'];
+        $checkValidUser = false;
+
+        foreach ($users as $user) {
+            if ($this->userRole == $user) {
+                $checkValidUser = true;
+            }
+        }
+
+        if ($checkValidUser) {
             $func = $this->param[$params['db'] ?? 'noParameters'] ??
                 $this->param['noParameters'];
             $this->$func();
         } else {
-            header('Location: ./admin');
+            header('Location: ./');
         }
     }
 
     private function getUsersController()
     {
-        require './src/controller/crud/crud_users_controller.php';
-        new CrudUsersController();
+        if ($this->userRole == '3') {
+            require './src/controller/crud/crud_admin_users_controller.php';
+            new CrudAdminUsersController();
+        } else {
+            header('Location: ./panel');
+        }
     }
 
     private function getCoursesController()
-    { 
-        require './src/controller/crud/crud_courses_controller.php';
-        new CrudCoursesController();
-        
+    {
+        $arrUsers = [
+            '1' => 'Student',
+            '2' => 'Teacher',
+            '3' => 'Admin'
+        ];
+        $directory = './src/controller/crud/crud_'. strtolower($arrUsers[$this->userRole]) .'_courses_controller.php';
+        $classController = 'Crud' . $arrUsers[$this->userRole] . 'CoursesController';
+
+        require $directory;
+        new $classController();
+
     }
 
     private function getPanelView()

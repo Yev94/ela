@@ -9,16 +9,8 @@
                 <li class="nav-item me-2">
                     <a class="nav-link active" aria-current="page" href="<?php echo DOMAIN ?>">Inicio</a>
                 </li>
-                <li class="nav-item dropdown nav-link px-0 me-3">
-                    <a role="button" data-bs-toggle="dropdown" href="#" class="dropdown-toggle text-decoration-none link-light">Acceso</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" aria-current="page" href="acceso/alumno.html">Alumnos</a></li>
-                        <li><a class="dropdown-item" aria-current="page" href="acceso/profesor.html">Profesores</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="Registro/Usuario.html">No estoy registrado</a></li>
-                    </ul>
+                <li class="nav-item me-2">
+                    <a class="nav-link active" href="<?php echo DOMAIN ?>login">Acceso</a>
                 </li>
                 <li class="nav-item dropdown nav-link px-0 me-2">
                     <a role="button" data-bs-toggle="dropdown" href="#" class="dropdown-toggle text-decoration-none link-light">Cursos</a>
@@ -41,10 +33,17 @@
                 //Defined in src/controller/login_admin_controller.php->executePost()
                 $userSession = new UserSession();
                 $userRole = $userSession->getUserRole();
-                if ($userRole == '3') {
-                    if ($_SERVER['REQUEST_URI'] !== '/ela/admin') {
+                $user = ['1', '2', '3'];
+                $checkValidUser = false;
+                foreach ($user as $user) {
+                    if ($userRole == $user) {
+                        $checkValidUser = true;
+                    }
+                }
+                if ($checkValidUser) {
+                    if ($_SERVER['REQUEST_URI'] !== '/ela/panel') {
                         echo '<li class="nav-item">
-                                <a class="nav-link active" href="' . DOMAIN . 'admin">Panel</a>
+                                <a class="nav-link active" href="' . DOMAIN . 'panel">Panel</a>
                             </li>';
                     }
                     echo '<li class="nav-item">

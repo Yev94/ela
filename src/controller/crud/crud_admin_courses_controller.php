@@ -1,6 +1,6 @@
 <?php
 require './model/crud_courses_model.php';
-class CrudCoursesController
+class CrudAdminCoursesController
 {
     private $db;
     

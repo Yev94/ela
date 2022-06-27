@@ -26,7 +26,7 @@ export default class CrudUsers {
             data.forEach(user => {
                 let row = this.createAndAppend.element(this.users, 'tr');
                 let columnID = this.createAndAppend.element(row, 'td');
-                
+
                 //avatar
                 let avatar = this.createAndAppend.element(row, 'td');
                 let img = this.createAndAppend.element(avatar, 'img');
@@ -88,6 +88,8 @@ export default class CrudUsers {
         let inputImgUpdate = document.getElementById('img-update');
         let inputNicknameUpdate = document.getElementById('nickname-update');
         let inputPasswordUpdate = document.getElementById('password-update');
+        let selectSex = document.getElementById('sex-update');
+        let selectNationality = document.getElementById('nationality-update');
         let formUpdate = document.getElementById('form-update');
         let buttonCloseUpdate = document.querySelector('.button-close-update');
 
@@ -102,53 +104,69 @@ export default class CrudUsers {
             data[0].identity_card ? inputIdentityCardUpdate.value = data[0].identity_card : inputIdentityCardUpdate.placeholder = '-';
             data[0].user_nickname ? inputNicknameUpdate.value = data[0].user_nickname : inputNicknameUpdate.placeholder = '-';
             inputPasswordUpdate.placeholder = '********';
+
+            let optionSex = document.querySelector(`#sex-update option[value="${data[0].sex_id}"]`) ?? selectSex.firstElementChild;
+            optionSex.setAttribute('selected', '');
+
+            let optionNationality = document.querySelector(`#nationality-update option[value="${data[0].nationality_id}"]`) ?? selectSex.firstElementChild;
+            optionNationality.setAttribute('selected', '');
+
         }
         ).catch(error => console.error(error));
 
         let bootstrap = new BootstrapEla(modalUser);
         bootstrap.openModal();
-        
+
         let removeEventSubmit = () => {
             formUpdate.removeEventListener('submit', submitFormUpdate);
         }
-        
+
         let removeEventsAndUpdate = () => {
+            let optionSex = document.querySelector(`#sex-update option[selected]`);
+            let optionNationality = document.querySelector(`#nationality-update option[selected]`);
             this.reed();
             removeEventSubmit();
             inputImgUpdate.value = '';
+            console.log();
+            if (optionSex && optionNationality) {
+                optionSex.removeAttribute('selected');
+                optionNationality.removeAttribute('selected');
+            }
             modalUser.removeEventListener('hidden.bs.modal', removeEventsAndUpdate);
         }
-        
+
         modalUser.addEventListener('hidden.bs.modal', removeEventsAndUpdate);
 
         let submitFormUpdate = () => {
-            
+
             let formData = new FormData();
             formData.append('file', inputImgUpdate.files[0]);
-    
+
             let options = {
                 method: 'POST',
                 body: formData
             }
 
-            ;(async () => {
-                try {
-                    let response = await fetch('/ela/api/upload', options);
-                    let data = await response.json();
-                    let dataSend = {
-                        inputNameUpdate: inputNameUpdate.value,
-                        inputLastNameUpdate: inputLastNameUpdate.value,
-                        inputIdentityCardUpdate: inputIdentityCardUpdate.value,
-                        inputImgUpdate: data.result,
-                        inputNicknameUpdate: inputNicknameUpdate.value,
-                        inputPasswordUpdate: inputPasswordUpdate.value
-                    };
-                    this.api.update(idUpdate.value, dataSend);
-                    bootstrap.closeModal();
-                } catch (error) {
-                    console.error(error);
-                }
-            })();
+                ; (async () => {
+                    try {
+                        let response = await fetch('/ela/api/upload', options);
+                        let data = await response.json();
+                        let dataSend = {
+                            inputNameUpdate: inputNameUpdate.value,
+                            inputLastNameUpdate: inputLastNameUpdate.value,
+                            inputIdentityCardUpdate: inputIdentityCardUpdate.value,
+                            inputImgUpdate: data.result,
+                            inputNicknameUpdate: inputNicknameUpdate.value,
+                            inputPasswordUpdate: inputPasswordUpdate.value,
+                            selectSex: selectSex.value,
+                            selectNationality: selectNationality.value,
+                        };
+                        this.api.update(idUpdate.value, dataSend);
+                        bootstrap.closeModal();
+                    } catch (error) {
+                        console.error(error);
+                    }
+                })();
 
 
         }

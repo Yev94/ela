@@ -35,6 +35,7 @@ class ApiAdminModel
 
         //Insert user in database with POST method
         $data = json_decode(file_get_contents("php://input"));
+        
         // $img = new UploadImage();
         $user_name = $data->name ?? '';
         $last_name = $data->lastName ?? '';
@@ -42,17 +43,19 @@ class ApiAdminModel
         $img = $data->img;
         $user_nickname = $data->userNickname ?? '';
         $password = md5($data->userPassword ?? '');
+        $sex = $data->sex ?? '';
+        $nationality = $data->nationality ?? '';
 
 
         if (!empty($password)) {
             $password = md5($password);
-            $sql = "INSERT INTO users(user_name,last_name, identity_card, picture, user_nickname, password) 
-            VALUES (:user, :last_name, :identity_card, :picture, :user_nickname, :password)";
+            $sql = "INSERT INTO users(user_name,last_name, identity_card, picture, user_nickname, password, sex_id, nationality_id) 
+            VALUES (:user, :last_name, :identity_card, :picture, :user_nickname, :password, :sex, :nationality)";
             $query = $this->db->prepare($sql);
             $query->bindParam(':password', $password);
         } else {
-            $sql = "INSERT INTO users(user_name,last_name, identity_card, picture, user_nickname) 
-            VALUES (:user, :last_name, :identity_card, :picture, :user_nickname)";
+            $sql = "INSERT INTO users(user_name,last_name, identity_card, picture, user_nickname, sex_id, nationality_id) 
+            VALUES (:user, :last_name, :identity_card, :picture, :user_nickname, :sex, :nationality)";
             $query = $this->db->prepare($sql);
         }
 
@@ -61,6 +64,9 @@ class ApiAdminModel
         $query->bindParam(':identity_card', $identity_card);
         $query->bindParam(':picture', $img);
         $query->bindParam(':user_nickname', $user_nickname);
+        $query->bindParam(':sex', $sex);
+        $query->bindParam(':nationality', $nationality);
+
         $query->execute();
         $query->closeCursor();
         return $this->querySuccess($query);
@@ -69,7 +75,7 @@ class ApiAdminModel
     public function consult($id)
     {
         // Consult user by id
-        $sql = "SELECT id, user_name, last_name, identity_card, user_nickname, picture FROM users WHERE id= :id";
+        $sql = "SELECT id, user_name, last_name, identity_card, user_nickname, picture, sex_id, nationality_id FROM users WHERE id= :id";
         $query = $this->db->prepare($sql);
         $query->bindParam(':id', $id);
         $query->execute();
@@ -82,7 +88,7 @@ class ApiAdminModel
     {
         // Update user by id
         $data = json_decode(file_get_contents("php://input"));
-
+        
         $user_name = $data->inputNameUpdate ?? '';
         $last_name = $data->inputLastNameUpdate ?? '';
         $identity_card = $data->inputIdentityCardUpdate ?? '';
@@ -90,18 +96,20 @@ class ApiAdminModel
         $user_nickname = $data->inputNicknameUpdate ?? '';
         //if password is empty, don't update it
         $password = $data->inputPasswordUpdate ?? '';
+        $sex_id = $data->selectSex ?? '';
+        $nationality_id = $data->selectNationality ?? '';
 
         if (!empty($password)) {
             $password = md5($password);
             if (!empty($img)) {
                 $sql = "UPDATE users 
-                SET user_name=:user, last_name=:last_name, identity_card =:identity_card, picture=:picture, user_nickname=:user_nickname, password=:password
+                SET user_name=:user, last_name=:last_name, identity_card =:identity_card, picture=:picture, user_nickname=:user_nickname, password=:password, sex_id = :sex_id, nationality_id = :nationality_id
                 WHERE id=:id";
                 $query = $this->db->prepare($sql);
                 $query->bindParam(':picture', $img);
             } else {
                 $sql = "UPDATE users 
-                SET user_name=:user, last_name=:last_name, identity_card =:identity_card, user_nickname=:user_nickname, password=:password
+                SET user_name=:user, last_name=:last_name, identity_card =:identity_card, user_nickname=:user_nickname, password=:password, sex_id = :sex_id, nationality_id = :nationality_id
                 WHERE id=:id";
                 $query = $this->db->prepare($sql);
             }
@@ -109,13 +117,13 @@ class ApiAdminModel
         } else {
             if (!empty($img)) {
                 $sql = "UPDATE users
-                SET user_name=:user, last_name=:last_name, identity_card =:identity_card, picture=:picture, user_nickname=:user_nickname
+                SET user_name=:user, last_name=:last_name, identity_card =:identity_card, picture=:picture, user_nickname=:user_nickname, sex_id = :sex_id, nationality_id = :nationality_id
                 WHERE id=:id";
                 $query = $this->db->prepare($sql);
                 $query->bindParam(':picture', $img);
             } else {
                 $sql = "UPDATE users
-                SET user_name=:user, last_name=:last_name, identity_card =:identity_card, user_nickname=:user_nickname
+                SET user_name=:user, last_name=:last_name, identity_card =:identity_card, user_nickname=:user_nickname, sex_id = :sex_id, nationality_id = :nationality_id
                 WHERE id=:id";
                 $query = $this->db->prepare($sql);
             }
@@ -125,6 +133,8 @@ class ApiAdminModel
         $query->bindParam(':last_name', $last_name);
         $query->bindParam(':identity_card', $identity_card);
         $query->bindParam(':user_nickname', $user_nickname);
+        $query->bindParam(':sex_id', $sex_id);
+        $query->bindParam(':nationality_id', $nationality_id);
         $query->bindParam(':id', $id);
         $query->execute();
         $query->closeCursor();

@@ -62,7 +62,27 @@ include './view/templates/head.php';
                                     </div>
                                     <div class="mb-3">
                                         <label for="password-update" class="form-label">Contraseña:</label>
-                                        <input type="text" name="password-update" id="password-update" class="form-control" placeholder="Contraseña">
+                                        <input type="password" name="password-update" id="password-update" class="form-control" placeholder="Contraseña">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="sex-update" class="form-label">Sexo:</label>
+                                        <select name="sex-update" id="sex-update" class="form-select" aria-label="Default select example">
+                                            <option value="1">Mujer</option>
+                                            <option value="2">Hombre</option>
+                                            <option value="3">Ninguno</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="nationality-update" class="form-label">Nacionalidad:</label>
+                                        <select name="nationality-update" id="nationality-update" class="form-select" aria-label="Default select example">
+                                            <?php
+                                            if ($arrTableNationality) {
+                                                for ($i = 0; $i < count($arrTableNationality); $i++) {
+                                                    echo '<option value="' . $arrTableNationality[$i]->id . '">' . $arrTableNationality[$i]->nationality . '</option>';
+                                                }
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
 
                                     <!-- <div class="mb-3">
@@ -103,6 +123,7 @@ include './view/templates/head.php';
                                                 }
                                                 ?>
                                             </select>
+
                                         </div>
                                         <div class="mb-3">
                                             <label for="type-user" class="form-label">Matricular como:</label>
@@ -180,6 +201,14 @@ include './view/templates/head.php';
                                             <label for="nickname" class="form-label">Nombre de Usuario:</label>
                                             <input required type="text" name="nickname" id="nickname" class="form-control" placeholder="Nombre de Usuario">
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="sex" class="form-label">Sexo:</label>
+                                            <select name="sex" id="sex" class="form-select" aria-label="Default select example">
+                                                <option value="1" selected>Mujer</option>
+                                                <option value="2">Hombre</option>
+                                                <option value="3">Ninguno</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-3">
@@ -188,14 +217,27 @@ include './view/templates/head.php';
                                         </div>
                                         <div class="mb-3">
                                             <label for="img" class="form-label">Imagen de Perfil:</label>
-                                            <input class="form-control" id="img" type="file">
+                                            <input autocomplete="off" class="form-control" id="img" type="file">
                                         </div>
                                         <div class="mb-3">
                                             <label for="password" class="form-label">Contraseña:</label>
-                                            <input required type="text" name="password" id="password" class="form-control" placeholder="Contraseña">
+                                            <input autocomplete="off" required type="password" name="password" id="password" class="form-control" placeholder="Contraseña">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="nationality" class="form-label">Nacionalidad:</label>
+                                            <select name="nationality" id="nationality" class="form-select" aria-label="Default select example">
+                                                <?php
+                                                echo '<option value="' . $arrTableNationality[0]->id . '" selected>' . $arrTableNationality[0]->nationality . '</option>';
+                                                if ($arrTableNationality) {
+                                                    for ($i = 1; $i < count($arrTableNationality); $i++) {
+                                                        echo '<option value="' . $arrTableNationality[$i]->id . '">' . $arrTableNationality[$i]->nationality . '</option>';
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-success col-5">Agregar usuario</button>
+                                    <button type="submit" class="btn btn-success col-5">Agregar Usuario</button>
                                 </div>
                             </form>
                         </div>

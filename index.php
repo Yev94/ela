@@ -9,6 +9,7 @@ require 'src/controller/api/api_admin_users_controller.php';
 require 'src/controller/api/api_admin_courses_controller.php';
 require 'src/controller/api/api_enrollments_controller.php';
 require 'src/controller/api/api_teacher_students_controller.php';
+require 'src/controller/api/api_upload_file_controller.php';
 require 'includes/config.php';
 require 'includes/user_session.php';
 //From includes/user_session.php
@@ -44,6 +45,7 @@ $router->get($base . $loginUsers, LoginController::class . '::executeGet');
 
 $router->post($base . $loginUsers,  LoginController::class . '::executePost');
 
+
 $router->get($base . 'panel', function ($params) { new LoggedController($params); });
 //From src/router.php
 //From src/controller/logout_controller.php
@@ -65,6 +67,8 @@ $router->delete($base . $apiEnrollmentsRoute, function ($params) { new ApiEnroll
 
 
 $router->get($base . $apiTeacherStudents, function ($params) { new ApiTeacherStudentsController($params); });
+
+$router->post($base . 'api/upload', ApiUploadFileController::class . '::executePost');
 //From src/router.php
 $router->addNotFoundController(function () {
     require_once './view/404.php';

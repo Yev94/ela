@@ -66,7 +66,8 @@ include './view/templates/head.php';
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>ID Alumno</th>
+                            <th>ID</th>
+                            <th>Foto de Perfil</th>
                             <th>Nombre Completo</th>
                             <th>DNI</th>
                             <th>Fecha de Inicio</th>

@@ -1,5 +1,5 @@
 <?php
-    require 'model/api_admin_users_model.php';
+require 'model/api_admin_users_model.php';
 $title = 'CRUD Usuarios';
 include './view/templates/head.php';
 ?>
@@ -48,6 +48,15 @@ include './view/templates/head.php';
                                         <label for="last-name-update" class="form-label">Apellidos:</label>
                                         <input type="text" name="last-name-update" id="last-name-update" class="form-control" placeholder="Apellidos">
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="dni-update" class="form-label">DNI:</label>
+                                        <input required type="text" name="dni-update" id="dni-update" class="form-control" placeholder="DNI">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="img-update" class="form-label">Subir Nueva Imagen:</label>
+                                        <input class="form-control" id="img-update" type="file">
+                                    </div>
+
                                     <!-- <div class="mb-3">
                                         <label for="email" class="form-label">Correo:</label>
                                         <input type="email" name="email" id="email" class="form-control" placeholder="Correo del usuarios">
@@ -142,27 +151,40 @@ include './view/templates/head.php';
             </section>
             <!-- Main to Insert -->
             <section class="row justify-content-center">
-                <div class="col-md-5">
+                <div class="col-10">
                     <div class="card">
                         <div class="card-header bg-success text-white">
                             Insertar Usuarios
                         </div>
                         <div class="card-body">
                             <form id="form" action="javascript:void(0);" method="post">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Nombre:</label>
-                                    <input required type="text" name="name" id="name" class="form-control" placeholder="Nombre del usuarios">
+                                <div class="row justify-content-center">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Nombre:</label>
+                                            <input required type="text" name="name" id="name" class="form-control" placeholder="Nombre del usuarios">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="last-name" class="form-label">Apellidos:</label>
+                                            <input required type="text" name="last-name" id="last-name" class="form-control" placeholder="Apellidos">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="dni" class="form-label">DNI:</label>
+                                            <input required type="text" name="dni" id="dni" class="form-control" placeholder="DNI">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="img" class="form-label">Imagen de Perfil:</label>
+                                            <input class="form-control" id="img" type="file">
+                                        </div>
+                                        <!-- <div class="mb-3">
+                                                <label for="email" class="form-label">Correo:</label>
+                                                <input type="email" name="email" id="email" class="form-control" placeholder="Correo del usuarios">
+                                            </div> -->
+                                    </div>
+                                    <button type="submit" class="btn btn-success col-5">Agregar usuario</button>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="last-name" class="form-label">Apellidos:</label>
-                                    <input required type="text" name="last-name" id="last-name" class="form-control" placeholder="Apellidos">
-                                </div>
-                                <!-- <div class="mb-3">
-                                        <label for="email" class="form-label">Correo:</label>
-                                        <input type="email" name="email" id="email" class="form-control" placeholder="Correo del usuarios">
-                                    </div> -->
-
-                                <button type="submit" class="btn btn-success">Agregar usuario</button>
                             </form>
                         </div>
                     </div>
@@ -176,6 +198,7 @@ include './view/templates/head.php';
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Foto</th>
                             <th>Nombre Completo</th>
                             <th>DNI</th>
                             <th>Acciones</th>

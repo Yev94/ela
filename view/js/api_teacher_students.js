@@ -29,7 +29,7 @@ window.onload = () => {
         }
         ).catch(error => console.error(error));
     }
-    
+
     yearElement.addEventListener('change', setNameCourseByYear);
 
 
@@ -47,6 +47,13 @@ window.onload = () => {
                 let date = new Date(students.start_date).toLocaleDateString('es-ES');
                 let row = createAndAppend.element(tableStudents, 'tr');
                 let columnID = createAndAppend.element(row, 'td');
+
+                //avatar
+                let avatar = createAndAppend.element(row, 'td');
+                let img = createAndAppend.element(avatar, 'img');
+                img.src = 'http://localhost/ela/img/users/' + (students.picture ?? 'default.png');
+                img.classList.add('img-avatar');
+
                 let columnName = createAndAppend.element(row, 'td');
                 let columnIdentityCard = createAndAppend.element(row, 'td');
                 let columnStartDate = createAndAppend.element(row, 'td');

@@ -123,3 +123,10 @@
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
     transform: translateY(-2%);
 }
+
+.img-avatar{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: block;
+}

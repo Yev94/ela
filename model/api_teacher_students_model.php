@@ -38,7 +38,7 @@ class ApiTeacherStudentsModel
 
     public function consultStudentsByCourse($courseID)
     {
-        $sql = "SELECT user_rol.id, concat_ws(' ', users.user_name, users.last_name) as name, users.identity_card, enrol.start_date
+        $sql = "SELECT user_rol.id, users.picture, concat_ws(' ', users.user_name, users.last_name) as name, users.identity_card, enrol.start_date
         FROM enrol 
         INNER JOIN user_rol ON enrol.user_rol_id = user_rol.id
         INNER JOIN users ON user_rol.user_id = users.id

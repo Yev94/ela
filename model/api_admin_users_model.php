@@ -13,6 +13,7 @@ class ApiAdminModel
     public function __construct()
     {
         require './includes/connect.php';
+        require './includes/upload_image.php';
 
         $this->db = Connect::connection();
     }
@@ -20,7 +21,7 @@ class ApiAdminModel
     public function reed()
     {
         // get all users
-        $sql = "SELECT id, concat_ws(' ', user_name, last_name) as user_name, identity_card FROM users ORDER By id";
+        $sql = "SELECT id, picture, concat_ws(' ', user_name, last_name) as user_name, identity_card FROM users ORDER By id";
         $query = $this->db->prepare($sql);
         $query->execute();
         $row = $query->fetchAll(PDO::FETCH_CLASS);
@@ -31,17 +32,23 @@ class ApiAdminModel
 
     public function create()
     {
+
         //Insert user in database with POST method
         $data = json_decode(file_get_contents("php://input"));
-
-        $user_name = $data->inputName ?? '';
-        $last_name = $data->inputLastName ?? '';
+        // $img = new UploadImage();
+        $user_name = $data->name ?? '';
+        $last_name = $data->lastName ?? '';
+        $identity_card = $data->identityCard ?? '';
+        $img = $data->img;
 
         // if (!empty($last_name) && !empty($user_name)) {
-            $sql = "INSERT INTO users(user_name,last_name) VALUES (:user, :password)";
+            $sql = "INSERT INTO users(user_name,last_name, identity_card, picture) 
+            VALUES (:user, :last_name, :identity_card, :picture)";
             $query = $this->db->prepare($sql);
             $query->bindParam(':user', $user_name);
-            $query->bindParam(':password', $last_name);
+            $query->bindParam(':last_name', $last_name);
+            $query->bindParam(':identity_card', $identity_card);
+            $query->bindParam(':picture', $img);
             $query->execute();
             $query->closeCursor();
             return $this->querySuccess($query);
@@ -63,16 +70,22 @@ class ApiAdminModel
     public function update($id)
     {
         // Update user by id
-        $data = json_decode(file_get_contents("php://input"));;
+        $data = json_decode(file_get_contents("php://input"));
 
         $user_name = $data->inputNameUpdate ?? '';
         $last_name = $data->inputLastNameUpdate ?? '';
+        $identity_card = $data->inputIdentityCardUpdate ?? '';
+        $img = $data->inputImgUpdate;
 
         // if (!empty($last_name) && !empty($user_name)) {
-            $sql = "UPDATE users SET user_name=:user, last_name=:last_name WHERE id=:id";
+            $sql = "UPDATE users 
+            SET user_name=:user, last_name=:last_name, identity_card =:identity_card, picture=:picture
+            WHERE id=:id";
             $query = $this->db->prepare($sql);
             $query->bindParam(':user', $user_name);
             $query->bindParam(':last_name', $last_name);
+            $query->bindParam(':identity_card', $identity_card);
+            $query->bindParam(':picture', $img);
             $query->bindParam(':id', $id);
             $query->execute();
             $query->closeCursor();

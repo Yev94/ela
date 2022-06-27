@@ -26,6 +26,13 @@ export default class CrudUsers {
             data.forEach(user => {
                 let row = this.createAndAppend.element(this.users, 'tr');
                 let columnID = this.createAndAppend.element(row, 'td');
+                
+                //avatar
+                let avatar = this.createAndAppend.element(row, 'td');
+                let img = this.createAndAppend.element(avatar, 'img');
+                img.src = 'http://localhost/ela/img/users/' + (user.picture ?? 'default.png');
+                img.classList.add('img-avatar');
+
                 let columnName = this.createAndAppend.element(row, 'td');
                 let columnIdentityCard = this.createAndAppend.element(row, 'td');
                 let columnButton = this.createAndAppend.element(row, 'td');
@@ -60,11 +67,7 @@ export default class CrudUsers {
         ).catch(error => console.error(error));
     }
 
-    create(inputName, inputLastName) {
-        let dataSend = {
-            inputName,
-            inputLastName
-        };
+    create(dataSend) {
         this.api.create(dataSend);
         this.reed();
     }
@@ -81,6 +84,8 @@ export default class CrudUsers {
         let idUpdate = document.getElementById('id-update');
         let inputNameUpdate = document.getElementById('name-update');
         let inputLastNameUpdate = document.getElementById('last-name-update');
+        let inputIdentityCardUpdate = document.getElementById('dni-update');
+        let inputImgUpdate = document.getElementById('img-update');
         let formUpdate = document.getElementById('form-update');
         let buttonCloseUpdate = document.querySelector('.button-close-update');
 
@@ -91,6 +96,7 @@ export default class CrudUsers {
             data[0].id ? idUpdate.value = data[0].id : idUpdate.placeholder = '-';
             data[0].user_name ? inputNameUpdate.value = data[0].user_name : inputNameUpdate.placeholder = '-';
             data[0].last_name ? inputLastNameUpdate.value = data[0].last_name : inputLastNameUpdate.placeholder = '-';
+            data[0].identity_card ? inputIdentityCardUpdate.value = data[0].identity_card : inputIdentityCardUpdate.placeholder = '-';
         }
         ).catch(error => console.error(error));
 
@@ -104,19 +110,40 @@ export default class CrudUsers {
         let removeEventsAndUpdate = () => {
             this.reed();
             removeEventSubmit();
+            inputImgUpdate.value = '';
             modalUser.removeEventListener('hidden.bs.modal', removeEventsAndUpdate);
         }
         
         modalUser.addEventListener('hidden.bs.modal', removeEventsAndUpdate);
 
         let submitFormUpdate = () => {
-            let data = {
-                inputNameUpdate: inputNameUpdate.value,
-                inputLastNameUpdate: inputLastNameUpdate.value
-            };
+            
+            let formData = new FormData();
+            formData.append('file', inputImgUpdate.files[0]);
+    
+            let options = {
+                method: 'POST',
+                body: formData
+            }
 
-            this.api.update(idUpdate.value, data);
-            bootstrap.closeModal();
+            ;(async () => {
+                try {
+                    let response = await fetch('/ela/api/upload', options);
+                    let data = await response.json();
+                    let dataSend = {
+                        inputNameUpdate: inputNameUpdate.value,
+                        inputLastNameUpdate: inputLastNameUpdate.value,
+                        inputIdentityCardUpdate: inputIdentityCardUpdate.value,
+                        inputImgUpdate: data.result
+                    };
+                    this.api.update(idUpdate.value, dataSend);
+                    bootstrap.closeModal();
+                } catch (error) {
+                    console.error(error);
+                }
+            })();
+
+
         }
         //Submit of modal form
         formUpdate.addEventListener('submit', submitFormUpdate);

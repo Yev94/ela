@@ -11,11 +11,13 @@
         //     resolve();
         // }, 500));
 
-        // await new Promise(resolve => window.setTimeout(() => {
-        //    let event5 =  new MouseEvent('click', { view: window, bubbles: true, cancelable: false });
-        //     document.querySelector('#year-enrol').dispatchEvent(event5);
-        //     resolve();
-        // }, 500));
+        await new Promise(
+            resolve => window.setTimeout(
+                () => {
+           let event5 =  new MouseEvent('click', { view: window, bubbles: true, cancelable: false });
+            document.querySelector('#year-enrol').dispatchEvent(event5);
+            resolve();
+        }, 500));
 
         // await new Promise(resolve => window.setTimeout(() => {
         //     document.querySelector('#year-enrol').value = '2';

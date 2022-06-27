@@ -25,11 +25,11 @@ class ApiCrudController
     public function __construct($params)
     {
         $this->sessionUser = new UserSession();
-        $userRole = $this->sessionUser->getUserRole();
+        $userRole = $this->sessionUser->getRoleId();
         $this->params = $params;
         if (in_array($userRole, $this->authorizedRole)) {
             require $this->modelRoute;
-            $this->tableValues = new ApiUsersModel();
+            $this->tableValues = new ApiAdminModel();
             //TODO: Apuntar que se puede llamar a una función por su string
             $func = $this->param[$this->params['type'] ?? 'error'];
             $this->$func();

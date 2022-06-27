@@ -1,47 +1,48 @@
 <?php
 //We use this class to login admin page
 // require './model/login_admin_model.php';
-class LoginUserController
-{
-    private $userSession;
-    private $user;
-    private $userRole;
+// class LoginUserController
+// {
+//     private $userSession;
+//     private $user;
+//     private $userRole;
 
-    public function __construct()
-    {
-        require './view/login.php';
-        $this->userSession = new UserSession();
-        $this->userRole = $this->userSession->getUserRole();
-        // $this->user = new LoginAdminModel();
-    }
+//     public function __construct()
+//     {
+//         require './view/login.php';
+//         $this->userSession = new UserSession();
+//         $this->userRole = $this->userSession->getUserRole();
+//         // $this->user = new LoginAdminModel();
+//     }
 
-    public function executeGet()
-    {
+//     public function executeGet()
+//     {
         
-        echo '<pre><br />'; var_dump($_SERVER['REQUEST_URI']); echo '</pre>';
-        if ($this->userRole == '1' || $this->userRole == '2') {
-            header('Location: ./panel');
-        } else {
-            require './view/login.php';
-        }
-    }
+//         echo '<pre><br />'; var_dump($_SERVER['REQUEST_URI']); echo '</pre>';
+//         if ($this->userRole == '1' || $this->userRole == '2') {
+//             header('Location: ./panel');
+//         } else {
+//             require './view/login.php';
+//         }
+//     }
 
-    public function executePost()
-    {
+//     public function executePost()
+//     {
     
-        //From model/login_admin_model.php
-        $this->user->loginAdmin($_POST['user'], $_POST['password'], $_POST['role']);
+//         //From model/login_admin_model.php
+//         $this->user->loginAdmin($_POST['user'], $_POST['password'], $_POST['role']);
 
-        if ($this->user->loginAdmin($_POST['user'], $_POST['password'], $_POST['role'])) {
-            //From includes/user_session.php
-            $this->userSession->setUserName($this->user->getName());
-            $this->userSession->setUserNickname($this->user->getNickname());
-            $this->userSession->setUserRole($this->user->getRole());
+//         if ($this->user->loginAdmin($_POST['user'], $_POST['password'], $_POST['role'])) {
+//             //From includes/user_session.php
+//             $this->userSession->setUserId($this->user->getId());
+//             $this->userSession->setUserName($this->user->getName());
+//             $this->userSession->setUserNickname($this->user->getNickname());
+//             $this->userSession->setUserRole($this->user->getRole());
             
-            header('Location: ./panel');
-        } else {
-            $errorLogin = '<div class="alert alert-danger" role="alert"> Usuario o contraseña incorrectos </div>';
-            require './view/ela_admin/login.php';
-        }
-    }
-}
+//             header('Location: ./panel');
+//         } else {
+//             $errorLogin = '<div class="alert alert-danger" role="alert"> Usuario o contraseña incorrectos </div>';
+//             require './view/ela_admin/login.php';
+//         }
+//     }
+// }

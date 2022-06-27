@@ -18,6 +18,7 @@ export default class CrudEnrol {
     constructor(id) {
         this.tableEnrollments = document.getElementById('table-enrollments');
         let modalEnrolment = document.getElementById('modal-enrolment');
+        let years = document.querySelector('#year-enrol option[value="1"]');
         this.apiUsers = new ApiCrud(this.urlUsers);
         this.idUsers = id;
         this.createAndAppend = new CreateAndAppend();
@@ -27,6 +28,7 @@ export default class CrudEnrol {
         this.setTitle();
         this.setButtonsListeners();
         this.consultByIdUser();
+        this.setNameEnrolmentByYear(years.value);
 
     }
 
@@ -47,33 +49,43 @@ export default class CrudEnrol {
         let buttonCloseEnrol = document.querySelector('.button-close-enrol');
         let bootstrap = new BootstrapEla(modalEnrolment);
         let selectYearEnrol = document.querySelector('#year-enrol');
+        let buttonRefresh = document.querySelector('.button-refresh-enrol');
         bootstrap.openModal();
-        
-        
+
+
+
         let removeEventSubmit = () => {
             formEnrol.removeEventListener('submit', this.submitFormEnrol);
         }
-        
+
         let removeEventSetNameEnrolment = () => {
             selectYearEnrol.removeEventListener('change', this.setNameEnrolmentByYear);
         }
-        
+
+        let removeEventRefresh = () => {
+            buttonRefresh.removeEventListener('click', consult);
+        }
+
         let removeEventsAndUpdate = () => {
             removeEventSubmit();
             removeEventSetNameEnrolment();
+            removeEventRefresh();
             modalEnrolment.removeEventListener('hidden.bs.modal', removeEventsAndUpdate);
         }
-        
+
         modalEnrolment.addEventListener('hidden.bs.modal', removeEventsAndUpdate);
 
         //Submit of modal form
         selectYearEnrol.addEventListener('change', this.setNameEnrolmentByYear);
         formEnrol.addEventListener('submit', this.submitFormEnrol);
+        let consult = () => this.consultByIdUser();
+        buttonRefresh.addEventListener('click', consult);
 
     }
 
-    setNameEnrolmentByYear = (e) => {
-        let response = this.getNameEnrolmentByYear(e.target.value);
+    setNameEnrolmentByYear = (value) => {
+        let valueYear = !isNaN(value) ? value : value.target.value;
+        let response = this.getNameEnrolmentByYear(valueYear);
         response.then(data => {
             let selectEnrolment = document.querySelector('#name-enrol');
             assetFunction.removeChildren(selectEnrolment);
@@ -144,12 +156,28 @@ export default class CrudEnrol {
             selectDateEnrollment: selectDateEnrollment.value,
         }
 
-        this.apiEnrollments.create(sendData);
-        this.consultByIdUser();
+            ; (async (sendData) => {
+                await new Promise(resolve => {
+                    setTimeout(() => {
+                        this.apiEnrollments.create(sendData);
+                        resolve();
+                    }, 1000);
+                }).then(() => {
+                    this.consultByIdUser();
+                })
+            })(sendData);
     }
 
     delete(id) {
-        this.apiEnrollments.delete(id);
-        this.consultByIdUser();
+        ; (async () => {
+            await new Promise(resolve => {
+                setTimeout(() => {
+                    this.apiEnrollments.delete(id)
+                    resolve();
+                }, 1000);
+            }).then(() => {
+                this.consultByIdUser();
+            })
+        })();
     }
 }

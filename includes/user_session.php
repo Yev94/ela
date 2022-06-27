@@ -8,6 +8,10 @@ class UserSession{
         }
     }
 
+    public function setUserId($userId){
+        $_SESSION['user']['userId'] = $userId;
+    }
+
     public function setUserName($userName){
         $_SESSION['user']['userName'] = $userName;
     }
@@ -16,8 +20,19 @@ class UserSession{
         $_SESSION['user']['userNickname'] = $userNickname;
     }
 
-    public function setUserRole($userRole){
-        $_SESSION['user']['userRole'] = $userRole;
+    public function setRoleId($roleId){
+        $_SESSION['user']['roleId'] = $roleId;
+    }
+
+    public function setUserRoleId($userRoleId){
+        $_SESSION['user']['userRoleId'] = $userRoleId;
+    }
+
+    public function getUserId(){
+        if(isset($_SESSION['user']['userId'])){
+            return $_SESSION['user']['userId'];
+        }
+        return null;
     }
 
     public function getUserName(){
@@ -34,9 +49,16 @@ class UserSession{
         return null;
     }
 
-    public function getUserRole(){
-        if(isset($_SESSION['user']['userRole'])){
-            return $_SESSION['user']['userRole'];
+    public function getRoleId(){
+        if(isset($_SESSION['user']['roleId'])){
+            return $_SESSION['user']['roleId'];
+        }
+        return null;
+    }
+
+    public function getUserRoleId(){
+        if(isset($_SESSION['user']['userRoleId'])){
+            return $_SESSION['user']['userRoleId'];
         }
         return null;
     }

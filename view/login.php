@@ -47,7 +47,7 @@ include './view/templates/head.php';
                                             <input type="password" name="password" id="password" value="" class="form-control" placeholder="Contraseña" required>
                                             <label for="password"><span class="text-muted">Contraseña</span></label>
                                         </div>
-                                        <input id="input-role" type="hidden" name="role" value="2">
+                                        <input id="input-role" type="hidden" name="roleId" value="2">
                                         <button type="submit" class="btn btn-danger btn-block mt-3" id="loginbtn">Acceder</button>
                                     </form>
                                 </div>

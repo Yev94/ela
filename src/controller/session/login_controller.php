@@ -10,7 +10,7 @@ class LoginController
     public function __construct()
     {
         $this->userSession = new UserSession();
-        $this->userRole = $this->userSession->getUserRole();
+        $this->userRole = $this->userSession->getRoleId();
         $this->user = new LoginAdminModel();
     }
 
@@ -28,13 +28,15 @@ class LoginController
     {
         
         //From model/login_admin_model.php
-        $this->user->loginAdmin($_POST['user'], $_POST['password'], $_POST['role']);
+        $this->user->loginAdmin($_POST['user'], $_POST['password'], $_POST['roleId']);
 
-        if ($this->user->loginAdmin($_POST['user'], $_POST['password'], $_POST['role'])) {
+        if ($this->user->loginAdmin($_POST['user'], $_POST['password'], $_POST['roleId'])) {
             //From includes/user_session.php
+            $this->userSession->setUserId($this->user->getId());
             $this->userSession->setUserName($this->user->getName());
             $this->userSession->setUserNickname($this->user->getNickname());
-            $this->userSession->setUserRole($this->user->getRole());
+            $this->userSession->setRoleId($this->user->getRoleId());
+            $this->userSession->setUserRoleId($this->user->getUserRoleId());
             
             header('Location: ./panel');
         } else {

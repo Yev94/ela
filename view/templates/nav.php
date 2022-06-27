@@ -32,11 +32,11 @@
                 <?php
                 //Defined in src/controller/login_admin_controller.php->executePost()
                 $userSession = new UserSession();
-                $userRole = $userSession->getUserRole();
+                $roleId = $userSession->getRoleId();
                 $user = ['1', '2', '3'];
                 $checkValidUser = false;
                 foreach ($user as $user) {
-                    if ($userRole == $user) {
+                    if ($roleId == $user) {
                         $checkValidUser = true;
                     }
                 }

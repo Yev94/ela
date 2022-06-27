@@ -9,7 +9,7 @@ class LogoutController
             '3' => 'admin'
         ];
         $userSession = new UserSession();
-        $userRole = $userSession->getUserRole();
+        $userRole = $userSession->getRoleId();
         $userSession->destroySession();
         header('Location:' . DOMAIN . $roles[$userRole]);
     }

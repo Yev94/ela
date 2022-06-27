@@ -11,10 +11,10 @@ $arrRoleNames = [
     'other' => 'Invitado'
 ];
 
-$roleName = $arrRoleNames[$userRole ?? 'other'];
+$roleName = $arrRoleNames[$roleId ?? 'other'];
 $name = $userName;
 
-if ($userRole == '3') {
+if ($roleId == '3') {
     echo '<link rel="stylesheet" href="' . DOMAIN . 'view/style/ela_admin.css">';
 }
 
@@ -55,7 +55,7 @@ if ($userRole == '3') {
                             ['Iniciar sesión', '?db=login', 'login.png']
                         ]
                 ];
-                foreach ($arrRoleCard[$userRole] as $card) {
+                foreach ($arrRoleCard[$roleId] as $card) {
                     $panelBuilder->buildCard(... $card);
                 }
                 

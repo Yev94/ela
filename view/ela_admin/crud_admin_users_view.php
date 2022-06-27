@@ -1,4 +1,5 @@
 <?php
+    require 'model/api_admin_users_model.php';
 $title = 'CRUD Usuarios';
 include './view/templates/head.php';
 ?>
@@ -109,6 +110,7 @@ include './view/templates/head.php';
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary button-close-enrol" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-info button-refresh-enrol">Refrescar</button>
                                     <button type="submit" class="btn btn-primary button-send-enrol">Matricular</button>
                                 </div>
                             </form>
@@ -121,6 +123,7 @@ include './view/templates/head.php';
                                             <th>Curso</th>
                                             <th>Año</th>
                                             <th>Matriculado Como</th>
+                                            <th>Fecha de Inicio</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -141,7 +144,7 @@ include './view/templates/head.php';
             <section class="row justify-content-center">
                 <div class="col-md-5">
                     <div class="card">
-                        <div class="card-header bg-success ">
+                        <div class="card-header bg-success text-white">
                             Insertar Usuarios
                         </div>
                         <div class="card-body">

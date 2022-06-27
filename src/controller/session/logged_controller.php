@@ -3,10 +3,11 @@
 class LoggedController
 {
     private $userSession;
-    private $userRole;
+    private $roleId;
     private $param = [
         'users' => 'getUsersController',
         'courses' => 'getCoursesController',
+        'students' => 'getStudentsController',
         'noParameters' => 'getPanelView',
         'notFound' => 'getNotFoundView'
     ];
@@ -15,13 +16,14 @@ class LoggedController
     {
 
         $this->userSession = new UserSession();
-        $this->userRole = $this->userSession->getUserRole();
+        $this->roleId = $this->userSession->getRoleId();
+
 
         $users = ['1', '2', '3'];
         $checkValidUser = false;
 
         foreach ($users as $user) {
-            if ($this->userRole == $user) {
+            if ($this->roleId == $user) {
                 $checkValidUser = true;
             }
         }
@@ -37,7 +39,7 @@ class LoggedController
 
     private function getUsersController()
     {
-        if ($this->userRole == '3') {
+        if ($this->roleId == '3') {
             require './src/controller/crud/crud_admin_users_controller.php';
             new CrudAdminUsersController();
         } else {
@@ -52,12 +54,21 @@ class LoggedController
             '2' => 'Teacher',
             '3' => 'Admin'
         ];
-        $directory = './src/controller/crud/crud_'. strtolower($arrUsers[$this->userRole]) .'_courses_controller.php';
-        $classController = 'Crud' . $arrUsers[$this->userRole] . 'CoursesController';
+        $directory = './src/controller/crud/crud_' . strtolower($arrUsers[$this->roleId]) . '_courses_controller.php';
+        $classController = 'Crud' . $arrUsers[$this->roleId] . 'CoursesController';
 
         require $directory;
         new $classController();
+    }
 
+    private function getStudentsController()
+    {
+        if ($this->roleId == '2') {
+            require './src/controller/crud/teacher_students_controller.php';
+            new CrudTeacherStudentsController();
+        } else {
+            header('Location: ./panel');
+        }
     }
 
     private function getPanelView()

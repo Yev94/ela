@@ -42,7 +42,7 @@ include './view/templates/head.php';
                                 <label for="password">Contraseña</label>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Insertar Contraseña">
                             </div>
-                            <input type="hidden" name="role" value="3">
+                            <input type="hidden" name="roleId" value="3">
                             <button type="submit" class="btn btn-primary my-2">Iniciar Sesión</button>
                         </form>
                     </div>

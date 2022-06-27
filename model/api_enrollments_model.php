@@ -32,7 +32,8 @@ class ApiEnrollmentsModel{
             INNER JOIN years ON years.id = course.year_id
             INNER JOIN user_rol ON user_rol.id = enrol.user_rol_id 
             INNER JOIN roles ON roles.id = user_rol.role_id
-            WHERE user_rol.user_id = :userId";
+            WHERE user_rol.user_id = :userId
+            ORDER BY enrol.id DESC";
         
         $query = $this->db->prepare($sql);
         $query->bindParam(':userId', $userId);

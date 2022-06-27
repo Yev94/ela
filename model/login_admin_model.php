@@ -6,7 +6,10 @@ class LoginAdminModel
     private $db;
     private $userName;
     private $userNickname;
-    private $userRole;
+    private $roleId;
+    private $userId;
+    private $userRoleId;
+
     private $sql;
 
     public function __construct()
@@ -21,7 +24,7 @@ class LoginAdminModel
     {
         
         $md5pass = md5($password);
-        $this->sql = " SELECT * FROM users INNER JOIN user_rol ON users.id = user_rol.user_id WHERE users.user_nickname = :user AND users.password = :password AND user_rol.role_id = :role;";
+        $this->sql = "SELECT users.id as id_user, users.user_name, users.user_nickname, user_rol.role_id, user_rol.id as user_role_id FROM users INNER JOIN user_rol ON users.id = user_rol.user_id WHERE users.user_nickname = :user AND users.password = :password AND user_rol.role_id = :role;";
         //From includes/connect.php
         $query = $this->db->prepare($this->sql);
 
@@ -47,10 +50,16 @@ class LoginAdminModel
     
     private function setUser($row){
         foreach ($row as $currentUser) {
+            $this->userId = $currentUser->id_user;
             $this->userName = $currentUser->user_name;
             $this->userNickname = $currentUser->user_nickname;
-            $this->userRole = $currentUser->role_id;
+            $this->roleId = $currentUser->role_id;
+            $this->userRoleId = $currentUser->user_role_id;
         }
+    }
+
+    public function getId(){
+        return $this->userId;
     }
 
     public function getNickname(){
@@ -61,8 +70,12 @@ class LoginAdminModel
         return $this->userName;
     }
 
-    public function getRole(){
-        return $this->userRole;
+    public function getRoleId(){
+        return $this->roleId;
+    }
+
+    public function getUserRoleId(){
+        return $this->userRoleId;
     }
 
 }

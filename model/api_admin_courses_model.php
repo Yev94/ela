@@ -5,7 +5,7 @@
 // header("Content-Type: application/json; charset=UTF-8");
 // header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-class ApiUsersModel
+class ApiAdminModel
 {
     private $db;
 
@@ -97,6 +97,7 @@ class ApiUsersModel
     {
         $sql = "SELECT * FROM course WHERE year_id = :year_id";
         $query = $this->db->prepare($sql);
+        $query->bindParam(':year_id', $yearID);
         $query->execute();
         $row = $query->fetchAll(PDO::FETCH_CLASS);
         $query->closeCursor();

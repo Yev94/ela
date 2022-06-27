@@ -1,13 +1,11 @@
 <?php
 
-class ApiEnrollmentsController
+class ApiTeacherStudentsController
 {
     private $param = [
-        'consultByYear' => 'consultByYear',
-        'reed' => 'reed',
-        'create' => 'create',
+        'consultByYear' => 'getCoursesByYear',
+        'consultStudentsByCourse' => 'consultStudentsByCourse',
         'consultByIdUser' => 'consultByIdUser',
-        'delete' => 'delete',
         'error' => 'error',
     ];
 
@@ -25,14 +23,14 @@ class ApiEnrollmentsController
     public function __construct($params)
     {
         $this->sessionUser = new UserSession();
-        $userRole = $this->sessionUser->getRoleId();
+        $userRoleId = $this->sessionUser->getRoleId();
         $this->params = $params;
-        $this->authorizedRole = ['3'];
-        $this->modelRoute = './model/api_enrollments_model.php';
+        $this->modelRoute = './model/api_teacher_students_model.php';
+        $this->authorizedRole = ['2'];
 
-        if (in_array($userRole, $this->authorizedRole)) {
+        if (in_array($userRoleId, $this->authorizedRole)) {
             require $this->modelRoute;
-            $this->tableValues = new ApiEnrollmentsModel();
+            $this->tableValues = new ApiTeacherStudentsModel();
             $func = $this->param[$this->params['type'] ?? 'error'];
             $this->$func();
         } else {
@@ -42,9 +40,11 @@ class ApiEnrollmentsController
         }
     }
 
-    private function consultByYear()
+    public function getCoursesByYear()
     {
-        $response = $this->tableValues->consultByYear($this->params['id']);
+        $sessionUser = new UserSession();
+        $userRoleId = $sessionUser->getUserRoleId();
+        $response = $this->tableValues->getCoursesByYear($userRoleId, $this->params['id']);
         if (!empty($response)) {
             echo json_encode($response);
         } else {
@@ -52,9 +52,12 @@ class ApiEnrollmentsController
         }
     }
 
-    private function consultByIdUser()
+
+    private function consultStudentsByCourse()
     {
-        $response = $this->tableValues->consultByIdUser($this->params['id']);
+        $userId = $this->sessionUser->getUserId();
+
+        $response = $this->tableValues->consultStudentsByCourse($this->params['id']);
         if (!empty($response)) {
             echo json_encode($response);
         } else {
@@ -62,17 +65,27 @@ class ApiEnrollmentsController
         }
     }
 
-    private function create()
-    {
-        $response = $this->tableValues->create();
-        $this->updateAndSendResponse($response);
-    }
+    // private function consultByIdUser()
+    // {
+    //     $response = $this->tableValues->consultByIdUser($this->params['id']);
+    //     if (!empty($response)) {
+    //         echo json_encode($response);
+    //     } else {
+    //         $this->sendResponse($response);
+    //     }
+    // }
 
-    private function delete()
-    {
-        $response = $this->tableValues->delete($this->params['id']);
-        $this->sendResponse($response);
-    }
+    // private function create()
+    // {
+    //     $response = $this->tableValues->create();
+    //     $this->updateAndSendResponse($response);
+    // }
+
+    // private function delete()
+    // {
+    //     $response = $this->tableValues->delete($this->params['id']);
+    //     $this->sendResponse($response);
+    // }
 
     private function updateAndSendResponse($response)
     {
@@ -104,5 +117,4 @@ class ApiEnrollmentsController
         echo json_encode($this->json, http_response_code($this->json["status"]));
     }
 }
-
 ?>

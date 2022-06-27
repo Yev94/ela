@@ -1,8 +1,7 @@
 <?php
-    
-    require 'model/api_users_model.php';
+
     $sessionUser = new UserSession();
-    $userRole = $sessionUser->getUserRole();
+    $roleId = $sessionUser->getRoleId();
     $userName = $sessionUser->getUserName();
     
     ?>
@@ -27,7 +26,7 @@
     <script type="module" src="<?php echo DOMAIN?>view/js/assets.js"></script>
     <?php
 
-    if ($userRole == '3') {
+    if ($roleId == '3') {
         echo '<script defer src="' . DOMAIN . 'view/js/main_admin.js"></script>';
     }
 

@@ -56,6 +56,14 @@ include './view/templates/head.php';
                                         <label for="img-update" class="form-label">Subir Nueva Imagen:</label>
                                         <input class="form-control" id="img-update" type="file">
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="nickname-update" class="form-label">Nombre de Usuario:</label>
+                                        <input required type="text" name="nickname-update" id="nickname-update" class="form-control" placeholder="Nombre de Usuario">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password-update" class="form-label">Contraseña:</label>
+                                        <input type="text" name="password-update" id="password-update" class="form-control" placeholder="Contraseña">
+                                    </div>
 
                                     <!-- <div class="mb-3">
                                         <label for="email" class="form-label">Correo:</label>
@@ -168,6 +176,10 @@ include './view/templates/head.php';
                                             <label for="last-name" class="form-label">Apellidos:</label>
                                             <input required type="text" name="last-name" id="last-name" class="form-control" placeholder="Apellidos">
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="nickname" class="form-label">Nombre de Usuario:</label>
+                                            <input required type="text" name="nickname" id="nickname" class="form-control" placeholder="Nombre de Usuario">
+                                        </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-3">
@@ -178,10 +190,10 @@ include './view/templates/head.php';
                                             <label for="img" class="form-label">Imagen de Perfil:</label>
                                             <input class="form-control" id="img" type="file">
                                         </div>
-                                        <!-- <div class="mb-3">
-                                                <label for="email" class="form-label">Correo:</label>
-                                                <input type="email" name="email" id="email" class="form-control" placeholder="Correo del usuarios">
-                                            </div> -->
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Contraseña:</label>
+                                            <input required type="text" name="password" id="password" class="form-control" placeholder="Contraseña">
+                                        </div>
                                     </div>
                                     <button type="submit" class="btn btn-success col-5">Agregar usuario</button>
                                 </div>

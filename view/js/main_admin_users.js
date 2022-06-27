@@ -7,6 +7,8 @@ window.onload = () => {
     let lastName = document.getElementById('last-name');
     let identityCard = document.getElementById('dni');
     let img = document.getElementById('img');
+    let nickname = document.getElementById('nickname');
+    let password = document.getElementById('password');
     let form = document.getElementById('form');
 
     let crud = new CrudUsers(users);
@@ -32,7 +34,9 @@ window.onload = () => {
                     name: name.value,
                     lastName: lastName.value,
                     identityCard: identityCard.value,
-                    img: data.result
+                    img: data.result,
+                    nickname: nickname.value,
+                    password: password.value
                 };
                 crud.create(dataSend);
                 form.reset();

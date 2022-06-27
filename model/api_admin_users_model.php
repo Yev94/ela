@@ -8,7 +8,7 @@
 class ApiAdminModel
 {
     private $db;
-    
+
     //We use the constructor to connect to the database
     public function __construct()
     {
@@ -40,25 +40,36 @@ class ApiAdminModel
         $last_name = $data->lastName ?? '';
         $identity_card = $data->identityCard ?? '';
         $img = $data->img;
+        $user_nickname = $data->userNickname ?? '';
+        $password = md5($data->userPassword ?? '');
 
-        // if (!empty($last_name) && !empty($user_name)) {
-            $sql = "INSERT INTO users(user_name,last_name, identity_card, picture) 
-            VALUES (:user, :last_name, :identity_card, :picture)";
+
+        if (!empty($password)) {
+            $password = md5($password);
+            $sql = "INSERT INTO users(user_name,last_name, identity_card, picture, user_nickname, password) 
+            VALUES (:user, :last_name, :identity_card, :picture, :user_nickname, :password)";
             $query = $this->db->prepare($sql);
-            $query->bindParam(':user', $user_name);
-            $query->bindParam(':last_name', $last_name);
-            $query->bindParam(':identity_card', $identity_card);
-            $query->bindParam(':picture', $img);
-            $query->execute();
-            $query->closeCursor();
-            return $this->querySuccess($query);
-        // }
+            $query->bindParam(':password', $password);
+        } else {
+            $sql = "INSERT INTO users(user_name,last_name, identity_card, picture, user_nickname) 
+            VALUES (:user, :last_name, :identity_card, :picture, :user_nickname)";
+            $query = $this->db->prepare($sql);
+        }
+
+        $query->bindParam(':user', $user_name);
+        $query->bindParam(':last_name', $last_name);
+        $query->bindParam(':identity_card', $identity_card);
+        $query->bindParam(':picture', $img);
+        $query->bindParam(':user_nickname', $user_nickname);
+        $query->execute();
+        $query->closeCursor();
+        return $this->querySuccess($query);
     }
 
     public function consult($id)
     {
         // Consult user by id
-        $sql = "SELECT * FROM users WHERE id= :id";
+        $sql = "SELECT id, user_name, last_name, identity_card, user_nickname, picture FROM users WHERE id= :id";
         $query = $this->db->prepare($sql);
         $query->bindParam(':id', $id);
         $query->execute();
@@ -76,20 +87,48 @@ class ApiAdminModel
         $last_name = $data->inputLastNameUpdate ?? '';
         $identity_card = $data->inputIdentityCardUpdate ?? '';
         $img = $data->inputImgUpdate;
+        $user_nickname = $data->inputNicknameUpdate ?? '';
+        //if password is empty, don't update it
+        $password = $data->inputPasswordUpdate ?? '';
 
-        // if (!empty($last_name) && !empty($user_name)) {
-            $sql = "UPDATE users 
-            SET user_name=:user, last_name=:last_name, identity_card =:identity_card, picture=:picture
-            WHERE id=:id";
-            $query = $this->db->prepare($sql);
-            $query->bindParam(':user', $user_name);
-            $query->bindParam(':last_name', $last_name);
-            $query->bindParam(':identity_card', $identity_card);
-            $query->bindParam(':picture', $img);
-            $query->bindParam(':id', $id);
-            $query->execute();
-            $query->closeCursor();
-            return $this->querySuccess($query);
+        if (!empty($password)) {
+            $password = md5($password);
+            if (!empty($img)) {
+                $sql = "UPDATE users 
+                SET user_name=:user, last_name=:last_name, identity_card =:identity_card, picture=:picture, user_nickname=:user_nickname, password=:password
+                WHERE id=:id";
+                $query = $this->db->prepare($sql);
+                $query->bindParam(':picture', $img);
+            } else {
+                $sql = "UPDATE users 
+                SET user_name=:user, last_name=:last_name, identity_card =:identity_card, user_nickname=:user_nickname, password=:password
+                WHERE id=:id";
+                $query = $this->db->prepare($sql);
+            }
+            $query->bindParam(':password', $password);
+        } else {
+            if (!empty($img)) {
+                $sql = "UPDATE users
+                SET user_name=:user, last_name=:last_name, identity_card =:identity_card, picture=:picture, user_nickname=:user_nickname
+                WHERE id=:id";
+                $query = $this->db->prepare($sql);
+                $query->bindParam(':picture', $img);
+            } else {
+                $sql = "UPDATE users
+                SET user_name=:user, last_name=:last_name, identity_card =:identity_card, user_nickname=:user_nickname
+                WHERE id=:id";
+                $query = $this->db->prepare($sql);
+            }
+        }
+
+        $query->bindParam(':user', $user_name);
+        $query->bindParam(':last_name', $last_name);
+        $query->bindParam(':identity_card', $identity_card);
+        $query->bindParam(':user_nickname', $user_nickname);
+        $query->bindParam(':id', $id);
+        $query->execute();
+        $query->closeCursor();
+        return $this->querySuccess($query);
         // }
     }
 
@@ -105,8 +144,9 @@ class ApiAdminModel
         return $this->querySuccess($query);
     }
 
-    private function querySuccess($query){
+    private function querySuccess($query)
+    {
         if ($query->rowCount() > 0) return true;
-            else return false;
+        else return false;
     }
 }

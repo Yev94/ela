@@ -86,9 +86,12 @@ export default class CrudUsers {
         let inputLastNameUpdate = document.getElementById('last-name-update');
         let inputIdentityCardUpdate = document.getElementById('dni-update');
         let inputImgUpdate = document.getElementById('img-update');
+        let inputNicknameUpdate = document.getElementById('nickname-update');
+        let inputPasswordUpdate = document.getElementById('password-update');
         let formUpdate = document.getElementById('form-update');
         let buttonCloseUpdate = document.querySelector('.button-close-update');
 
+        formUpdate.reset();
         let response = this.api.consult(id);
 
         //Create async await for consult
@@ -97,6 +100,8 @@ export default class CrudUsers {
             data[0].user_name ? inputNameUpdate.value = data[0].user_name : inputNameUpdate.placeholder = '-';
             data[0].last_name ? inputLastNameUpdate.value = data[0].last_name : inputLastNameUpdate.placeholder = '-';
             data[0].identity_card ? inputIdentityCardUpdate.value = data[0].identity_card : inputIdentityCardUpdate.placeholder = '-';
+            data[0].user_nickname ? inputNicknameUpdate.value = data[0].user_nickname : inputNicknameUpdate.placeholder = '-';
+            inputPasswordUpdate.placeholder = '********';
         }
         ).catch(error => console.error(error));
 
@@ -134,7 +139,9 @@ export default class CrudUsers {
                         inputNameUpdate: inputNameUpdate.value,
                         inputLastNameUpdate: inputLastNameUpdate.value,
                         inputIdentityCardUpdate: inputIdentityCardUpdate.value,
-                        inputImgUpdate: data.result
+                        inputImgUpdate: data.result,
+                        inputNicknameUpdate: inputNicknameUpdate.value,
+                        inputPasswordUpdate: inputPasswordUpdate.value
                     };
                     this.api.update(idUpdate.value, dataSend);
                     bootstrap.closeModal();

@@ -42,8 +42,7 @@ class ApiAdminModel
         $identity_card = $data->identityCard ?? '';
         $img = $data->img;
         $user_nickname = $data->nickname ?? '';
-        exit();
-        
+
         $password = md5($data->userPassword ?? '');
         $sex = $data->sex ?? '';
         $nationality = $data->nationality ?? '';

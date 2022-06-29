@@ -36,22 +36,26 @@ include './view/templates/head.php';
                                     <input required type="text" name="id-update" id="id-update" class="form-control" placeholder="ID">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="name-update" class="form-label">Nombre:</label>
-                                    <input required type="text" name="name-update" id="name-update" class="form-control" placeholder="Nombre del curso">
+                                    <label for="short-name-update" class="form-label">Nombre Corto:</label>
+                                    <input required type="text" name="short-name-update" id="short-name-update" class="form-control" placeholder="Nombre Corto del Curso">
                                 </div>
                                 <div class="mb-3">
-                                <label for="year-update" class="form-label">Año del Curso:</label>
-                                <select name="year-update" id="year-update" class="form-select" aria-label="Default select example">
-                                    <?php
-                                    echo '<option value="' . $arrTableYears[0]->id . '" selected>'. $arrTableYears[0]->year .'</option>';
-                                    if ($arrTableYears) {
-                                        for ($i = 1; $i < count($arrTableYears); $i++) {
-                                            echo '<option value="' . $arrTableYears[$i]->id . '">' . $arrTableYears[$i]->year . '</option>';
+                                    <label for="long-name-update" class="form-label">Nombre Largo:</label>
+                                    <input required type="text" name="long-name-update" id="long-name-update" class="form-control" placeholder="Nombre Largo del Curso">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="year-update" class="form-label">Año del Curso:</label>
+                                    <select name="year-update" id="year-update" class="form-select" aria-label="Default select example">
+                                        <?php
+                                        echo '<option value="' . $arrTableYears[0]->id . '" selected>' . $arrTableYears[0]->year . '</option>';
+                                        if ($arrTableYears) {
+                                            for ($i = 1; $i < count($arrTableYears); $i++) {
+                                                echo '<option value="' . $arrTableYears[$i]->id . '">' . $arrTableYears[$i]->year . '</option>';
+                                            }
                                         }
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+                                        ?>
+                                    </select>
+                                </div>
                                 <!-- <div class="mb-3">
                                     <label for="email" class="form-label">Correo:</label>
                                     <input type="email" name="email" id="email" class="form-control" placeholder="Correo del usuarios">
@@ -73,14 +77,18 @@ include './view/templates/head.php';
                     <div class="card-body">
                         <form id="form" action="javascript:void(0);" method="post">
                             <div class="mb-3">
-                                <label for="name" class="form-label">Nombre:</label>
-                                <input required type="text" name="name" id="name" class="form-control" placeholder="Nombre del Curso">
+                                <label for="short-name" class="form-label">Nombre Corto:</label>
+                                <input required type="text" name="short-name" id="short-name" class="form-control" placeholder="Nombre Corto del Curso">
+                            </div>
+                            <div class="mb-3">
+                                <label for="long-name" class="form-label">Nombre Largo:</label>
+                                <input required type="text" name="long-name" id="long-name" class="form-control" placeholder="Nombre Largo del Curso">
                             </div>
                             <div class="mb-3">
                                 <label for="year" class="form-label">Año del Curso:</label>
                                 <select name="year" id="year" class="form-select" aria-label="Default select example">
                                     <?php
-                                    echo '<option value="' . $arrTableYears[0]->id . '" selected>'. $arrTableYears[0]->year .'</option>';
+                                    echo '<option value="' . $arrTableYears[0]->id . '" selected>' . $arrTableYears[0]->year . '</option>';
                                     if ($arrTableYears) {
                                         for ($i = 1; $i < count($arrTableYears); $i++) {
                                             echo '<option value="' . $arrTableYears[$i]->id . '">' . $arrTableYears[$i]->year . '</option>';
@@ -102,7 +110,8 @@ include './view/templates/head.php';
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nombre del Curso</th>
+                            <th>Nombre Corto del Curso</th>
+                            <th>Nombre Largo del Curso</th>
                             <th>Año</th>
                             <th>Acciones</th>
                         </tr>

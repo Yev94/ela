@@ -55,48 +55,12 @@ class ApiTeacherStudentsController
 
     private function consultStudentsByCourse()
     {
-        $userId = $this->sessionUser->getUserId();
-
         $response = $this->tableValues->consultStudentsByCourse($this->params['id']);
         if (!empty($response)) {
             echo json_encode($response);
         } else {
             $this->sendResponse($response);
         }
-    }
-
-    // private function consultByIdUser()
-    // {
-    //     $response = $this->tableValues->consultByIdUser($this->params['id']);
-    //     if (!empty($response)) {
-    //         echo json_encode($response);
-    //     } else {
-    //         $this->sendResponse($response);
-    //     }
-    // }
-
-    // private function create()
-    // {
-    //     $response = $this->tableValues->create();
-    //     $this->updateAndSendResponse($response);
-    // }
-
-    // private function delete()
-    // {
-    //     $response = $this->tableValues->delete($this->params['id']);
-    //     $this->sendResponse($response);
-    // }
-
-    private function updateAndSendResponse($response)
-    {
-        if ($response)
-            {
-                $this->json['status'] = '200';
-                $this->json['result'] = 'OK';
-                echo json_encode($this->json);
-            } else{
-                $this->error();
-            }
     }
 
     public function sendResponse($response)

@@ -33,6 +33,7 @@ include './view/templates/head.php';
                                         <?php
                                         echo '<option value="' . $arrTableYears[0]->id . '" selected>' . $arrTableYears[0]->year . '</option>';
                                         if ($arrTableYears) {
+                                            
                                             for ($i = 1; $i < count($arrTableYears); $i++) {
                                                 echo '<option value="' . $arrTableYears[$i]->id . '">' . $arrTableYears[$i]->year . '</option>';
                                             }
@@ -44,16 +45,17 @@ include './view/templates/head.php';
                                     <label for="course-name" class="form-label">Curso:</label>
                                     <select name="course-name" id="course-name" class="form-select" aria-label="Default select example">
                                         <?php
-                                        echo '<option value="' . $arrTableCourses[0]->id . '" selected>' . strToUpper($arrTableCourses[0]->name) . '</option>';
+                                        echo '<option value="' . $arrTableCourses[0]->id . '" selected>' . $arrTableCourses[0]->long_name . '</option>';
                                         if ($arrTableCourses) {
                                             for ($i = 1; $i < count($arrTableCourses); $i++) {
-                                                echo '<option value="' . $arrTableCourses[$i]->id . '">' . strToUpper($arrTableCourses[$i]->name) . '</option>';
+                                                echo '<option value="' . $arrTableCourses[$i]->id . '">' . $arrTableCourses[$i]->long_name . '</option>';
                                             }
                                         }
                                         ?>
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-success">Ver Alumnos</button>
+                                <a target="_blank" class="btn btn-danger text-white" id="button-pdf" href="http://localhost<?php echo DOMAIN ?>pdf">Generar PDF</a>
                             </form>
                         </div>
                     </div>

@@ -14,7 +14,7 @@ class ApiEnrollmentsModel{
     public function consultByYear($yearId)
     {
         // Consult user by id
-        $sql = "SELECT id, name FROM course WHERE year_id= :yearId";
+        $sql = "SELECT id, short_name FROM course WHERE year_id= :yearId";
         $query = $this->db->prepare($sql);
         $query->bindParam(':yearId', $yearId);
         $query->execute();
@@ -26,7 +26,7 @@ class ApiEnrollmentsModel{
     public function consultByIdUser($userId)
     {
         // get all courses
-        $sql = "SELECT enrol.id, course.name, years.year, roles.rol, enrol.start_date 
+        $sql = "SELECT enrol.id, course.short_name, years.year, roles.rol, enrol.start_date 
             FROM enrol
             INNER JOIN course ON course.id = course_id 
             INNER JOIN years ON years.id = course.year_id

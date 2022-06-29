@@ -7,10 +7,21 @@ window.onload = () => {
     let apiTeacher = new ApiCrud();
     let urlTeacherStudents = '/teacher/students';
     let urlApiTeacherStudents = '/ela/api' + urlTeacherStudents;
+    let urlPdf = 'http://localhost/ela/pdf';
 
     let courseElement = document.getElementById("course-name");
     let yearElement = document.getElementById("course-year");
     let createAndAppend = new CreateAndAppend();
+
+    //PDF Button
+    let generatePdfUrlByCourse = () => {
+        let buttonPdf = document.getElementById('button-pdf');
+        let courseId = courseElement.value;
+        let urlAPI = urlPdf + '?type=generatePdfByCourse&id=' + courseId;
+        buttonPdf.setAttribute('href', urlAPI);
+
+    }
+    generatePdfUrlByCourse();
 
     let getNameCourseByYear = (yearId) => {
         let urlAPI = urlApiTeacherStudents + '?type=consultByYear&id=' + yearId;
@@ -23,15 +34,24 @@ window.onload = () => {
         response.then(data => {
             assetFunction.removeChildren(courseElement);
             data.forEach(course => {
-                createAndAppend.optionElement(courseElement, course.name.toUpperCase(), course.id);
+                createAndAppend.optionElement(courseElement, course.long_name, course.id);
             }
             );
+        }
+        ).then(() => {
+            generatePdfUrlByCourse();
         }
         ).catch(error => console.error(error));
     }
 
-    yearElement.addEventListener('change', setNameCourseByYear);
+    yearElement.addEventListener('change', ()=>{
+        setNameCourseByYear(); //Set name course by year
+    });
 
+    courseElement.addEventListener('change', () => {
+        generatePdfUrlByCourse();
+    }
+    );
 
 
     let getStudents = () => {
@@ -74,4 +94,5 @@ window.onload = () => {
         getStudents();
     }
     );
+
 };

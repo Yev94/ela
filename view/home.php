@@ -8,13 +8,13 @@ require 'templates/head.php';
 
 <body>
     <div class="content-index">
-        <header>
-            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                </div>
+        <?php
+
+        include 'templates/nav.php';
+
+        ?>
+        <header class="my-3">
+            <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img src="img/hablando.jpg" class="d-block" alt="...">
@@ -36,18 +36,13 @@ require 'templates/head.php';
                 </button>
             </div>
         </header>
-        <?php
-
-        include 'templates/nav.php';
-
-        ?>
         <main>
-            <div class="m-4 mt-5 text-center">
-                <h1 class="h1 fw-bold">École de langues Ammari</h1>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis nisi similique blanditiis consequuntur, earum voluptas? Incidunt natus minus obcaecati sed eum, libero reprehenderit perspiciatis unde ipsum accusamus in dicta ratione.</p>
+            <div class="my-3 text-center">
+                <h1 class="h1 fw-bold">École de Langues Ammari</h1>
+                <p class="p-max">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis nisi similique blanditiis consequuntur, earum voluptas? Incidunt natus minus obcaecati sed eum, libero reprehenderit perspiciatis unde ipsum accusamus in dicta ratione.</p>
             </div>
             <div class="languages-cards">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 align-items-stretch g-4 py-5">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 align-items-stretch g-4">
                     <div class="col">
                         <a class="link-dark text-decoration-none" href="">
                             <div class="card card-cover h-100 overflow-hidden card1">

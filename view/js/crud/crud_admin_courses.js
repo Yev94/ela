@@ -26,14 +26,16 @@ export default class CrudCourses {
             data.forEach(course => {
                 let row = this.createAndAppend.element(this.courses, 'tr');
                 let columnID = this.createAndAppend.element(row, 'td');
-                let columnName = this.createAndAppend.element(row, 'td');
+                let columnShortName = this.createAndAppend.element(row, 'td');
+                let columnLongName = this.createAndAppend.element(row, 'td');
                 let columnYear = this.createAndAppend.element(row, 'td');
                 let columnButton = this.createAndAppend.element(row, 'td');
                 let updateButton = this.createAndAppend.element(columnButton, 'button', 'btn btn-info m-1 btn-edit');
                 let deleteButton = this.createAndAppend.element(columnButton, 'button', 'btn btn-danger m-1 btn-delete');
 
                 this.createAndAppend.textElement(columnID, course.id ?? '-');
-                this.createAndAppend.textElement(columnName, course.name.toUpperCase() ?? '-');
+                this.createAndAppend.textElement(columnShortName, course.short_name.toUpperCase() ?? '-');
+                this.createAndAppend.textElement(columnLongName, course.long_name ?? '-');
                 this.createAndAppend.textElement(columnYear, course.year ?? '-');
                 this.createAndAppend.textElement(updateButton, 'Editar');
                 this.createAndAppend.textElement(deleteButton, 'Eliminar');
@@ -53,9 +55,10 @@ export default class CrudCourses {
         ).catch(error => console.error(error));
     }
 
-    create(inputName, inputYear) {
+    create(inputShortName, inputLongName, inputYear) {
         let dataSend = {
-            inputName: inputName.toLowerCase(),
+            inputShortName: inputShortName.toLowerCase(),
+            inputLongName: inputLongName,
             inputYear
         };
         this.api.create(dataSend);
@@ -72,18 +75,21 @@ export default class CrudCourses {
 
         //From modal form
         let idUpdate = document.getElementById('id-update');
-        let inputNameUpdate = document.getElementById('name-update');
+        let inputShortNameUpdate = document.getElementById('short-name-update');
+        let inputLongNameUpdate = document.getElementById('long-name-update');
         let inputYearUpdate = document.getElementById('year-update');
         let formUpdate = document.getElementById('form-update');
         let buttonClose = document.querySelector('.button-close');
 
+        formUpdate.reset();
         let response = this.api.consult(id);
 
         //Create async await for consult
         response.then(data => {
             data[0].id ? idUpdate.value = data[0].id : idUpdate.placeholder = '-';
 
-            data[0].name ? inputNameUpdate.value = data[0].name : inputNameUpdate.placeholder = '-';
+            data[0].short_name ? inputShortNameUpdate.value = data[0].short_name : inputShortNameUpdate.placeholder = '-';
+            data[0].long_name ? inputLongNameUpdate.value = data[0].long_name : inputLongNameUpdate.placeholder = '-';
             data[0].year ? inputYearUpdate.value = data[0].year : inputYearUpdate.placeholder = '-';
         }
         ).catch(error => console.error(error));
@@ -106,7 +112,8 @@ export default class CrudCourses {
 
         let submitFormUpdate = () => {
             let data = {
-                inputNameUpdate: inputNameUpdate.value,
+                inputShortNameUpdate: inputShortNameUpdate.value,
+                inputLongNameUpdate: inputLongNameUpdate.value,
                 inputYearUpdate: inputYearUpdate.value
             };
 

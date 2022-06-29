@@ -1,4 +1,4 @@
-<footer class="p-3 mt-5 pt-md-5 border-top bg-light footer-ela">
+<footer class="px-5 py-3 border-top bg-light footer-ela">
     <div class="row">
         <div class="col-12 col-md">
             <img class="mb-2" src="<?php echo DOMAIN ?>img/logoescuelaweb2.png" alt="..." width="50" height="55">
@@ -24,7 +24,7 @@
             </ul>
         </div>
         <div class="col-12 col-sm-6 col-md">
-            <h5>Lo que nadie lee</h5>
+            <h5>Avisos Legales</h5>
             <ul class="list-unstyled text-small">
                 <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Terminos y condiciones</a></li>
                 <li class="mb-1"></li>

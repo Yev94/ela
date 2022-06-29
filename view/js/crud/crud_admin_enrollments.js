@@ -87,10 +87,10 @@ export default class CrudEnrol {
         let valueYear = !isNaN(value) ? value : value.target.value;
         let response = this.getNameEnrolmentByYear(valueYear);
         response.then(data => {
-            let selectEnrolment = document.querySelector('#name-enrol');
+            let selectEnrolment = document.querySelector('#short-name-enrol');
             assetFunction.removeChildren(selectEnrolment);
             data.forEach(enrolment => {
-                this.createAndAppend.optionElement(selectEnrolment, enrolment.name.toUpperCase(), enrolment.id);
+                this.createAndAppend.optionElement(selectEnrolment, enrolment.short_name.toUpperCase(), enrolment.id);
             }
             );
         }
@@ -113,7 +113,7 @@ export default class CrudEnrol {
                 let date = new Date(enrolment.start_date).toLocaleDateString('es-ES');
                 let row = this.createAndAppend.element(tableEnrollments, 'tr');
                 let columnID = this.createAndAppend.element(row, 'td');
-                let columnName = this.createAndAppend.element(row, 'td');
+                let columnShortName = this.createAndAppend.element(row, 'td');
                 let columnYear = this.createAndAppend.element(row, 'td');
                 let columnRolUser = this.createAndAppend.element(row, 'td');
                 let columnStartDate = this.createAndAppend.element(row, 'td');
@@ -122,7 +122,7 @@ export default class CrudEnrol {
                 let deleteButton = this.createAndAppend.element(columnButton, 'button', 'btn btn-danger m-1 btn-delete');
 
                 this.createAndAppend.textElement(columnID, enrolment.id ?? '-');
-                this.createAndAppend.textElement(columnName, enrolment.name.toUpperCase() ?? '-');
+                this.createAndAppend.textElement(columnShortName, enrolment.short_name.toUpperCase() ?? '-');
                 this.createAndAppend.textElement(columnYear, enrolment.year ?? '-');
                 this.createAndAppend.textElement(columnRolUser, enrolment.rol ?? '-');
                 this.createAndAppend.textElement(columnStartDate, date ?? '-');
@@ -145,7 +145,7 @@ export default class CrudEnrol {
 
     submitFormEnrol = () => {
         let form = document.getElementById('form-enrol');
-        let selectEnrollment = document.querySelector('#name-enrol');
+        let selectEnrollment = document.querySelector('#short-name-enrol');
         let selectTypeUser = document.querySelector('#type-user');
         let selectDateEnrollment = document.querySelector('#date-enrollment');
 
@@ -161,8 +161,9 @@ export default class CrudEnrol {
                     setTimeout(() => {
                         this.apiEnrollments.create(sendData);
                         resolve();
-                    }, 1000);
+                    }, 600);
                 }).then(() => {
+                    form.reset();
                     this.consultByIdUser();
                 })
             })(sendData);
@@ -174,7 +175,7 @@ export default class CrudEnrol {
                 setTimeout(() => {
                     this.apiEnrollments.delete(id)
                     resolve();
-                }, 1000);
+                }, 600);
             }).then(() => {
                 this.consultByIdUser();
             })

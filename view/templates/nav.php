@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-success">
-    <div class="container-fluid">
+    <div class="container-fluid px-4">
         <a class="navbar-brand" href="<?php echo DOMAIN ?>"><img src="<?php echo DOMAIN ?>img/logoescuelaweb2.png" alt="..." width="50" height="55"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarElaToggle" aria-controls="navbarElaToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

@@ -135,8 +135,8 @@ include './view/templates/head.php';
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-3">
-                                            <label for="name-enrol" class="form-label">Nombre:</label>
-                                            <select name="name-enrol" id="name-enrol" class="form-select" aria-label="Default select example">
+                                            <label for="short-name-enrol" class="form-label">Nombre:</label>
+                                            <select name="short-name-enrol" id="short-name-enrol" class="form-select" aria-label="Default select example">
                                                 <!-- Manage By Client -->
                                             </select>
                                         </div>

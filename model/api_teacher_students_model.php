@@ -25,7 +25,7 @@ class ApiTeacherStudentsModel
 
     public function getCoursesByYear($userRoleId, $yearID)
     {
-        $sql = "SELECT id, name FROM course WHERE year_id = :year_id AND id IN (SELECT course_id FROM enrol WHERE user_rol_id = :user_id)";
+        $sql = "SELECT id, long_name FROM course WHERE year_id = :year_id AND id IN (SELECT course_id FROM enrol WHERE user_rol_id = :user_id)";
         $query = $this->db->prepare($sql);
         $query->bindParam(':year_id', $yearID);
         $query->bindParam(':user_id', $userRoleId);

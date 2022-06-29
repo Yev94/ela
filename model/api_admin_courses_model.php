@@ -20,7 +20,7 @@ class ApiAdminModel
     public function reed()
     {
         // get all courses
-        $sql = "SELECT course.id, course.name, (SELECT year FROM years WHERE course.year_id = years.id) as year FROM course ORDER By course.id";
+        $sql = "SELECT course.id, course.short_name, course.long_name, (SELECT year FROM years WHERE course.year_id = years.id) as year FROM course ORDER By course.id";
         $query = $this->db->prepare($sql);
         $query->execute();
         $row = $query->fetchAll(PDO::FETCH_CLASS);
@@ -34,14 +34,16 @@ class ApiAdminModel
         //Insert user in database with POST method
         $data = json_decode(file_get_contents("php://input"));
 
-        $name = $data->inputName ?? '';
+        $short_name = $data->inputShortName ?? '';
+        $long_name = $data->inputLongName ?? '';
         $year_id = $data->inputYear ?? '';
 
         // if (!empty($name) && !empty($year_id)) {
-            $sql = "INSERT INTO course(name, year_id) VALUES (:name, :year_id)";
+            $sql = "INSERT INTO course(short_name, long_name, year_id) VALUES (:name, :year_id)";
 
             $query = $this->db->prepare($sql);
-            $query->bindParam(':name', $name);
+            $query->bindParam(':short_name', $short_name);
+            $query->bindParam(':long_name', $long_name);
             $query->bindParam(':year_id', $year_id);
             $query->execute();
             $query->closeCursor();
@@ -52,7 +54,7 @@ class ApiAdminModel
     public function consult($id)
     {
         // Consult user by id
-        $sql = "SELECT id, name, year_id FROM course WHERE id= :id";
+        $sql = "SELECT id, short_name, long_name, year_id FROM course WHERE id= :id";
         $query = $this->db->prepare($sql);
         $query->bindParam(':id', $id);
         $query->execute();
@@ -66,13 +68,15 @@ class ApiAdminModel
         // Update user by id
         $data = json_decode(file_get_contents("php://input"));;
 
-        $name = $data->inputNameUpdate ?? '';
+        $short_name = $data->inputShortNameUpdate ?? '';
+        $long_name = $data->inputLongNameUpdate ?? '';
         $year_id = $data->inputYearUpdate  ?? '';
 
         // if (!empty($name) && !empty($year_id)) {
-            $sql = "UPDATE course SET name=:name, year_id=:year_id WHERE id=:id";
+            $sql = "UPDATE course SET short_name=:short_name, long_name=:long_name, year_id=:year_id WHERE id=:id";
             $query = $this->db->prepare($sql);
-            $query->bindParam(':name', $name);
+            $query->bindParam(':short_name', $short_name);
+            $query->bindParam(':long_name', $long_name);
             $query->bindParam(':year_id', $year_id);
             $query->bindParam(':id', $id);
             $query->execute();

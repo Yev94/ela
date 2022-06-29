@@ -10,6 +10,7 @@ require 'src/controller/api/api_admin_courses_controller.php';
 require 'src/controller/api/api_enrollments_controller.php';
 require 'src/controller/api/api_teacher_students_controller.php';
 require 'src/controller/api/api_upload_file_controller.php';
+require 'src/controller/pdf/pdf_teacher_students_controller.php';
 require 'includes/config.php';
 require 'includes/user_session.php';
 //From includes/user_session.php
@@ -67,6 +68,8 @@ $router->delete($base . $apiEnrollmentsRoute, function ($params) { new ApiEnroll
 
 
 $router->get($base . $apiTeacherStudents, function ($params) { new ApiTeacherStudentsController($params); });
+
+$router->get($base . 'pdf', function ($params) { new PdfTeacherStudentController($params); });
 
 $router->post($base . 'api/upload', ApiUploadFileController::class . '::executePost');
 //From src/router.php
